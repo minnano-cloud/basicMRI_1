@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MRI 基礎練習問題</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/h5p-standalone@3.9.0/dist/styles/h5p.css">
+  <style>
+    body { margin: 0; background: #f7f7f7; font-family: system-ui, -apple-system, sans-serif; }
+    header { padding: 18px 20px; background: white; border-bottom: 1px solid #ddd; }
+    h1 { margin: 0; font-size: 1.25rem; }
+    main { max-width: 1000px; margin: 20px auto; padding: 0 12px 40px; }
+    #h5p-container { background: white; min-height: 200px; }
+  </style>
+</head>
+<body>
+  <header><h1>MRI 基礎練習問題</h1></header>
+  <main>
+    <div id="h5p-container">読み込み中…</div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/h5p-standalone@3.9.0/dist/main.bundle.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', function () {
+      const el = document.getElementById('h5p-container');
+      const options = {
+        h5pJsonPath: './h5p/MR講義用基礎1',
+        frameJs: 'https://cdn.jsdelivr.net/npm/h5p-standalone@3.9.0/dist/frame.bundle.js',
+        frameCss: 'https://cdn.jsdelivr.net/npm/h5p-standalone@3.9.0/dist/styles/h5p.css'
+      };
+      new H5PStandalone.H5P(el, options)
+        .catch(function (err) {
+          console.error(err);
+          el.innerHTML = '<p style="padding:20px;color:#b00020;">H5Pの読み込みに失敗しました。ブラウザの再読み込みを試してください。</p>';
+        });
+    });
+  </script>
+</body>
+</html>
