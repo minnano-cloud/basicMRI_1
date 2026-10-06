@@ -1,57 +1,38 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>MRI 基礎練習問題</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/h5p-standalone@3.9.0/dist/styles/h5p.css">
-  <style>
-    body { margin: 0; background: #f7f7f7; font-family: system-ui, -apple-system, sans-serif; }
-    header { padding: 18px 20px; background: #fff; border-bottom: 1px solid #ddd; }
-    h1 { margin: 0; font-size: 1.25rem; }
-    main { max-width: 1000px; margin: 20px auto; padding: 0 12px 40px; }
-    #h5p-container { background: #fff; min-height: 240px; padding: 12px; box-sizing: border-box; }
-    .status { padding: 20px; }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MRI講義用 基礎1</title>
+  <link rel="stylesheet" href="./assets/styles/h5p.css">
 </head>
 <body>
-  <header><h1>MRI 基礎練習問題</h1></header>
-  <main>
-    <div id="h5p-container"><div class="status">読み込み中…</div></div>
-  </main>
-
-  <script src="https://cdn.jsdelivr.net/npm/h5p-standalone@3.9.0/dist/main.bundle.js"></script>
+  <h1>MRI講義用 基礎1</h1>
+  <div id="h5p-container">読み込み中...</div>
+  <script src="./assets/main.bundle.js"></script>
+  <script src="./assets/frame.bundle.js"></script>
   <script>
-    window.addEventListener('DOMContentLoaded', async function () {
-      const el = document.getElementById('h5p-container');
-      const h5pPath = new URL('./h5p/MR講義用基礎1/', document.baseURI).href;
-      const frameJs = 'https://cdn.jsdelivr.net/npm/h5p-standalone@3.9.0/dist/frame.bundle.js';
-      const frameCss = 'https://cdn.jsdelivr.net/npm/h5p-standalone@3.9.0/dist/styles/h5p.css';
-
+    (async function () {
+      const container = document.getElementById('h5p-container');
       try {
-        const response = await fetch(h5pPath + 'h5p.json', { cache: 'no-store' });
+        const h5pPath = './h5p/MR講義用基礎1/';
+        const response = await fetch(h5pPath + 'h5p.json');
         if (!response.ok) {
-          throw new Error('h5p.json が取得できませんでした: HTTP ' + response.status);
+          throw new Error('h5p.json を読み込めませんでした。HTTP ' + response.status);
         }
-
         if (!window.H5PStandalone || !window.H5PStandalone.H5P) {
-          throw new Error('H5P Standalone プレーヤーのJavaScriptを読み込めませんでした。');
+          throw new Error('H5P StandaloneプレーヤーのJavaScriptを読み込めませんでした。');
         }
-
-        await new H5PStandalone.H5P(el, {
+        new H5PStandalone.H5P(container, {
           h5pJsonPath: h5pPath,
-          frameJs: frameJs,
-          frameCss: frameCss
+          frameJs: './assets/frame.bundle.js',
+          frameCss: './assets/styles/h5p.css'
         });
-      } catch (err) {
-        console.error('H5P loading error:', err);
-        el.innerHTML =
-          '<div class="status"><strong>H5Pを読み込めませんでした。</strong><br><br>' +
-          '原因確認用メッセージ：<br><code>' +
-          String(err.message || err).replace(/</g, '&lt;') +
-          '</code></div>';
+      } catch (error) {
+        console.error(error);
+        container.innerHTML = `<div style="padding:20px;border:1px solid #cc0000;background:#fff5f5;color:#990000;border-radius:8px;"><strong>H5Pを読み込めませんでした。</strong><br><br>${error.message}</div>`;
       }
-    });
+    })();
   </script>
 </body>
 </html>
