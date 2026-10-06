@@ -3,36 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MRI講義用 基礎1</title>
+  <title>MRI講義用基礎1</title>
   <link rel="stylesheet" href="./assets/styles/h5p.css">
 </head>
 <body>
-  <h1>MRI講義用 基礎1</h1>
-  <div id="h5p-container">読み込み中...</div>
-  <script src="./assets/main.bundle.js"></script>
-  <script src="./assets/frame.bundle.js"></script>
+  <div id="h5p-container"></div>
+  <div id="status" style="padding:16px;font-family:sans-serif;"></div>
+
+  <script
+    src="./assets/main.bundle.js"
+    onload="document.getElementById('status').textContent='プレーヤーJavaScriptを読み込みました。';"
+    onerror="document.getElementById('status').textContent='main.bundle.js の読み込みに失敗しました。';">
+  </script>
+
   <script>
-    (async function () {
+    window.addEventListener('load', function () {
+      const status = document.getElementById('status');
       const container = document.getElementById('h5p-container');
+
+      if (!window.H5PStandalone || !window.H5PStandalone.H5P) {
+        status.textContent =
+          'H5P StandaloneのJavaScriptは取得できましたが、H5PStandalone.H5P が利用できません。';
+        return;
+      }
+
+      status.textContent = 'H5P教材を読み込んでいます…';
+
       try {
-        const h5pPath = './h5p/MR講義用基礎1/';
-        const response = await fetch(h5pPath + 'h5p.json');
-        if (!response.ok) {
-          throw new Error('h5p.json を読み込めませんでした。HTTP ' + response.status);
-        }
-        if (!window.H5PStandalone || !window.H5PStandalone.H5P) {
-          throw new Error('H5P StandaloneプレーヤーのJavaScriptを読み込めませんでした。');
-        }
         new H5PStandalone.H5P(container, {
-          h5pJsonPath: h5pPath,
+          h5pJsonPath: './h5p/MR講義用基礎1/',
           frameJs: './assets/frame.bundle.js',
           frameCss: './assets/styles/h5p.css'
         });
+
+        setTimeout(function () {
+          status.textContent = '';
+        }, 1500);
       } catch (error) {
+        status.textContent =
+          'H5Pの起動中にエラーが発生しました： ' + error.message;
         console.error(error);
-        container.innerHTML = `<div style="padding:20px;border:1px solid #cc0000;background:#fff5f5;color:#990000;border-radius:8px;"><strong>H5Pを読み込めませんでした。</strong><br><br>${error.message}</div>`;
       }
-    })();
+    });
   </script>
 </body>
 </html>
