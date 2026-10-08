@@ -1,50 +1,98 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MRI講義用基礎1</title>
-  <link rel="stylesheet" href="./assets/styles/h5p.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MRI講義用基礎1 - 診断</title>
+<link rel="stylesheet" href="./assets/styles/h5p.css">
+<style>
+  #status {
+    padding: 16px;
+    margin: 0;
+    background: #f7f7f7;
+    border-bottom: 1px solid #ddd;
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  #h5p-container { padding: 16px; }
+  .error { color: #a00; }
+  .success { color: #176b2c; }
+</style>
 </head>
 <body>
-  <div id="h5p-container"></div>
-  <div id="status" style="padding:16px;font-family:sans-serif;"></div>
+<div id="h5p-container"></div>
+<div id="status">診断を開始しています…</div>
 
-  <script
-    src="./assets/main.bundle.js"
-    onload="document.getElementById('status').textContent='プレーヤーJavaScriptを読み込みました。';"
-    onerror="document.getElementById('status').textContent='main.bundle.js の読み込みに失敗しました。';">
-  </script>
+<script
+ src="./assets/main.bundle.js"
+ onload="window.__mainLoaded=true;"
+ onerror="window.__mainError=true;">
+</script>
 
-  <script>
-    window.addEventListener('load', function () {
-      const status = document.getElementById('status');
-      const container = document.getElementById('h5p-container');
+<script>
+window.addEventListener('load', async function () {
+  const status = document.getElementById('status');
+  const container = document.getElementById('h5p-container');
+  const base = './h5p/MR講義用基礎1/';
 
-      if (!window.H5PStandalone || !window.H5PStandalone.H5P) {
-        status.textContent =
-          'H5P StandaloneのJavaScriptは取得できましたが、H5PStandalone.H5P が利用できません。';
-        return;
-      }
+  function show(text, cls) {
+    status.className = cls || '';
+    status.textContent = text;
+  }
 
-      status.textContent = 'H5P教材を読み込んでいます…';
+  async function check(url, name) {
+    const r = await fetch(url, {cache: 'no-store'});
+    if (!r.ok) throw new Error(name + ' を取得できませんでした（HTTP ' + r.status + '）');
+    return r;
+  }
 
-      try {
-        new H5PStandalone.H5P(container, {
-          h5pJsonPath: './h5p/MR講義用基礎1/',
-          frameJs: './assets/frame.bundle.js',
-          frameCss: './assets/styles/h5p.css'
-        });
+  if (window.__mainError) {
+    show('【診断結果】main.bundle.js の読み込みに失敗しました。', 'error');
+    return;
+  }
 
-        setTimeout(function () {
-          status.textContent = '';
-        }, 1500);
-      } catch (error) {
-        status.textContent =
-          'H5Pの起動中にエラーが発生しました： ' + error.message;
-        console.error(error);
-      }
+  if (!window.H5PStandalone || !window.H5PStandalone.H5P) {
+    show('【診断結果】H5PStandalone.H5P が利用できません。', 'error');
+    return;
+  }
+
+  try {
+    show('① h5p.json を確認しています…');
+    await check(base + 'h5p.json', 'h5p.json');
+
+    show('② content.json を確認しています…');
+    await check(base + 'content/content.json', 'content/content.json');
+
+    show('③ H5Pプレーヤーを起動しています…');
+
+    const result = new H5PStandalone.H5P(container, {
+      h5pJsonPath: base,
+      frameJs: './assets/frame.bundle.js',
+      frameCss: './assets/styles/h5p.css'
     });
-  </script>
+
+    await Promise.race([
+      Promise.resolve(result),
+      new Promise((_, reject) => setTimeout(
+        () => reject(new Error(
+          '15秒以内にH5Pの初期化が完了しませんでした。' +
+          '\\nファイル取得後のライブラリ読み込み・初期化で停止している可能性があります。'
+        )), 15000))
+    ]);
+
+    show('【診断結果】H5P教材の読み込みに成功しました。', 'success');
+
+  } catch (e) {
+    console.error(e);
+    show(
+      '【診断結果】H5Pの読み込みに失敗しました。\\n\\n' +
+      'エラー内容：\\n' + (e && e.message ? e.message : String(e)) +
+      '\\n\\nこの表示をそのまま教えてください。',
+      'error'
+    );
+  }
+});
+</script>
 </body>
 </html>
