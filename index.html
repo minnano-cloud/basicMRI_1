@@ -6,92 +6,69 @@
 <title>MRI講義用基礎1 - 診断</title>
 <link rel="stylesheet" href="./assets/styles/h5p.css">
 <style>
-  #status {
-    padding: 16px;
-    margin: 0;
-    background: #f7f7f7;
-    border-bottom: 1px solid #ddd;
-    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
-    white-space: pre-wrap;
-    word-break: break-word;
-  }
-  #h5p-container { padding: 16px; }
-  .error { color: #a00; }
-  .success { color: #176b2c; }
+#status{padding:16px;background:#f7f7f7;border-bottom:1px solid #ddd;font-family:sans-serif;white-space:pre-wrap;word-break:break-word}
+#h5p-container{padding:16px}.error{color:#a00}.success{color:#176b2c}
 </style>
 </head>
 <body>
 <div id="h5p-container"></div>
 <div id="status">診断を開始しています…</div>
 
-<script
- src="./assets/main.bundle.js"
+<script src="./assets/main.bundle.js"
  onload="window.__mainLoaded=true;"
- onerror="window.__mainError=true;">
-</script>
+ onerror="window.__mainError=true;"></script>
 
 <script>
-window.addEventListener('load', async function () {
-  const status = document.getElementById('status');
-  const container = document.getElementById('h5p-container');
-  const base = './h5p/MR講義用基礎1/';
+window.addEventListener('load', async function(){
+ const status=document.getElementById('status');
+ const container=document.getElementById('h5p-container');
 
-  function show(text, cls) {
-    status.className = cls || '';
-    status.textContent = text;
-  }
+ // 日本語フォルダ名をURLとして正しく扱う
+ const contentFolder='MR講義用基礎1';
+ const contentPath='./h5p/'+encodeURIComponent(contentFolder)+'/';
 
-  async function check(url, name) {
-    const r = await fetch(url, {cache: 'no-store'});
-    if (!r.ok) throw new Error(name + ' を取得できませんでした（HTTP ' + r.status + '）');
-    return r;
-  }
+ function show(t,c){status.className=c||'';status.textContent=t;}
 
-  if (window.__mainError) {
-    show('【診断結果】main.bundle.js の読み込みに失敗しました。', 'error');
-    return;
-  }
+ async function check(url,name){
+   const r=await fetch(url,{cache:'no-store'});
+   if(!r.ok) throw new Error(name+' を取得できませんでした（HTTP '+r.status+'）\\nURL: '+url);
+   return r;
+ }
 
-  if (!window.H5PStandalone || !window.H5PStandalone.H5P) {
-    show('【診断結果】H5PStandalone.H5P が利用できません。', 'error');
-    return;
-  }
+ if(window.__mainError){
+   show('【診断結果】main.bundle.js の読み込みに失敗しました。','error'); return;
+ }
+ if(!window.H5PStandalone || !window.H5PStandalone.H5P){
+   show('【診断結果】H5PStandalone.H5P が利用できません。','error'); return;
+ }
 
-  try {
-    show('① h5p.json を確認しています…');
-    await check(base + 'h5p.json', 'h5p.json');
+ try{
+   show('① h5p.json を確認しています…');
+   await check(contentPath+'h5p.json','h5p.json');
 
-    show('② content.json を確認しています…');
-    await check(base + 'content/content.json', 'content/content.json');
+   show('② content.json を確認しています…');
+   await check(contentPath+'content/content.json','content/content.json');
 
-    show('③ H5Pプレーヤーを起動しています…');
+   show('③ H5Pプレーヤーを起動しています…');
 
-    const result = new H5PStandalone.H5P(container, {
-      h5pJsonPath: base,
-      frameJs: './assets/frame.bundle.js',
-      frameCss: './assets/styles/h5p.css'
-    });
+   const player=new H5PStandalone.H5P(container,{
+     h5pJsonPath:contentPath,
+     frameJs:'./assets/frame.bundle.js',
+     frameCss:'./assets/styles/h5p.css'
+   });
 
-    await Promise.race([
-      Promise.resolve(result),
-      new Promise((_, reject) => setTimeout(
-        () => reject(new Error(
-          '15秒以内にH5Pの初期化が完了しませんでした。' +
-          '\\nファイル取得後のライブラリ読み込み・初期化で停止している可能性があります。'
-        )), 15000))
-    ]);
+   await Promise.race([
+     Promise.resolve(player),
+     new Promise((_,reject)=>setTimeout(
+       ()=>reject(new Error('15秒以内にH5Pの初期化が完了しませんでした。\\nファイル取得後のライブラリ読み込み・初期化で停止している可能性があります。')),
+       15000))
+   ]);
 
-    show('【診断結果】H5P教材の読み込みに成功しました。', 'success');
-
-  } catch (e) {
-    console.error(e);
-    show(
-      '【診断結果】H5Pの読み込みに失敗しました。\\n\\n' +
-      'エラー内容：\\n' + (e && e.message ? e.message : String(e)) +
-      '\\n\\nこの表示をそのまま教えてください。',
-      'error'
-    );
-  }
+   show('【診断結果】H5P教材の読み込みに成功しました。','success');
+ }catch(e){
+   console.error(e);
+   show('【診断結果】H5Pの読み込みに失敗しました。\\n\\nエラー内容：\\n'+(e&&e.message?e.message:String(e))+'\\n\\nこの表示をそのまま教えてください。','error');
+ }
 });
 </script>
 </body>
