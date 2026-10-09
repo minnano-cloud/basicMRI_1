@@ -1,55 +1,54 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>磁気共鳴断層画像技術学 基礎1</title>
-  <link rel="stylesheet" href="./assets/styles/h5p.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>放射線技術学 学習ポータル</title>
+<meta name="description" content="放射線技術学の練習問題・国家試験対策に取り組むための学習ポータルです。">
+<style>
+:root{--ink:#203047;--muted:#627187;--line:#dfe7f0;--bg:#f3f7fb;--blue:#2463a6}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;color:var(--ink);background:var(--bg);line-height:1.7}
+.hero{padding:54px 20px 46px;color:white;background:linear-gradient(135deg,#173b66 0%,#2463a6 58%,#278b99 100%)}
+.hero-inner,main,footer{max-width:1040px;margin:0 auto}
+.eyebrow{margin:0 0 10px;font-size:.85rem;font-weight:700;letter-spacing:.12em;opacity:.88}
+h1{margin:0;font-size:clamp(1.8rem,4vw,2.7rem);line-height:1.3}
+.hero p:last-child{margin:16px 0 0;max-width:700px;color:#edf6ff}
+main{padding:34px 20px 50px}
+.section-heading{margin:0 0 8px;font-size:1.35rem}
+.section-intro{margin:0 0 24px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.card{display:flex;flex-direction:column;min-height:225px;padding:24px;color:inherit;text-decoration:none;background:white;border:1px solid var(--line);border-radius:18px;box-shadow:0 5px 18px rgba(29,53,83,.045);transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease}
+.card:hover,.card:focus-visible{transform:translateY(-3px);box-shadow:0 12px 28px rgba(29,53,83,.11);border-color:#9bb8d8;outline:none}
+.card-top{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+.icon{display:grid;place-items:center;flex:0 0 54px;width:54px;height:54px;border-radius:15px;font-size:1.7rem}
+.mri .icon{background:#eaf3ff}.equipment .icon{background:#e8f7f5}.anatomy .icon{background:#f1edfb}.year2 .icon{background:#fff2e6}
+.card h2{margin:0;font-size:1.15rem;line-height:1.45}
+.card p{margin:0 0 20px;color:var(--muted);font-size:.95rem}
+.link-label{margin-top:auto;padding-top:12px;border-top:1px solid #edf1f5;font-weight:700;color:var(--blue)}
+.link-label span{float:right;font-size:1.2rem;line-height:1.4}
+.note{margin-top:26px;padding:16px 18px;color:#526276;background:#eaf0f6;border-radius:12px;font-size:.92rem}
+footer{padding:0 20px 28px;text-align:center;color:var(--muted);font-size:.82rem}
+@media(max-width:650px){.hero{padding:38px 20px 34px}.grid{grid-template-columns:1fr;gap:14px}.card{min-height:0;padding:21px}}
+</style>
 </head>
 <body>
-  <div id="h5p-container"></div>
-  <div id="status" style="padding:16px;font-family:sans-serif;"></div>
-
-  <script
-    src="./assets/main.bundle.js"
-    onload="document.getElementById('status').textContent='';"
-    onerror="document.getElementById('status').textContent='プレーヤーJavaScriptの読み込みに失敗しました。';">
-  </script>
-
-  <script>
-    window.addEventListener('load', function () {
-      const status = document.getElementById('status');
-      const container = document.getElementById('h5p-container');
-
-      if (!window.H5PStandalone || !window.H5PStandalone.H5P) {
-        status.textContent =
-          'H5Pプレーヤーを読み込めませんでした。';
-        return;
-      }
-
-      const contentFolder = 'MR講義用基礎1';
-      const contentPath =
-        './h5p/' + encodeURIComponent(contentFolder) + '/';
-
-      status.textContent = 'H5P教材を読み込んでいます…';
-
-      try {
-        new H5PStandalone.H5P(container, {
-          h5pJsonPath: contentPath,
-          frameJs: './assets/frame.bundle.js',
-          frameCss: './assets/styles/h5p.css'
-        });
-
-        setTimeout(function () {
-          status.textContent = '';
-        }, 1500);
-
-      } catch (error) {
-        status.textContent =
-          'H5Pの起動中にエラーが発生しました： ' + error.message;
-        console.error(error);
-      }
-    });
-  </script>
+<header class="hero"><div class="hero-inner">
+<p class="eyebrow">LEARNING PORTAL</p>
+<h1>放射線技術学<br>学習ポータル</h1>
+<p>分野を選んで、練習問題に取り組みましょう。繰り返し学習や国家試験対策に活用してください。</p>
+</div></header>
+<main>
+<h2 class="section-heading">学習する分野を選択</h2>
+<p class="section-intro">各カードをクリックすると、その分野の問題集一覧が開きます。</p>
+<div class="grid">
+<a class="card mri" href="./mri.html"><div class="card-top"><div class="icon" aria-hidden="true">🧲</div><h2>MRI</h2></div><p>磁気共鳴断層画像技術学。基礎から臨床MRIまで、テーマ別の練習問題を選べます。</p><div class="link-label">MRIの問題集へ <span aria-hidden="true">→</span></div></a>
+<a class="card equipment" href="./xray-equipment.html"><div class="card-top"><div class="icon" aria-hidden="true">🩻</div><h2>X線機器学 国試対策</h2></div><p>X線管・高電圧装置、CR／FPD、X線CT、法令・JISなどの分野別問題と国家試験形式の問題をまとめています。</p><div class="link-label">X線機器学の問題集へ <span aria-hidden="true">→</span></div></a>
+<a class="card anatomy" href="./xray-anatomy.html"><div class="card-top"><div class="icon" aria-hidden="true">🦴</div><h2>X線解剖学</h2></div><p>1年生向けの頭部基礎など、解剖学の確認問題に取り組めます。</p><div class="link-label">X線解剖学の問題集へ <span aria-hidden="true">→</span></div></a>
+<a class="card year2" href="./year2.html"><div class="card-top"><div class="icon" aria-hidden="true">📚</div><h2>2年向け 今期学習範囲</h2></div><p>放射線治療、核医学、X線画像技術・基礎医学、医療安全・放射線安全管理の学習ページです。</p><div class="link-label">今期学習範囲へ <span aria-hidden="true">→</span></div></a>
+</div>
+<div class="note"><strong>学習のヒント：</strong>問題セットは準備ができたものから順次公開します。「準備中」と表示されているセットは、公開までお待ちください。</div>
+</main>
+<footer>放射線技術学 学習ポータル</footer>
 </body>
 </html>
