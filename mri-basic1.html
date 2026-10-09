@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>磁気共鳴断層画像技術学 基礎1</title>
+  <link rel="stylesheet" href="./assets/styles/h5p.css">
+</head>
+<body>
+  <div id="h5p-container"></div>
+  <div id="status" style="padding:16px;font-family:sans-serif;"></div>
+
+  <script
+    src="./assets/main.bundle.js"
+    onload="document.getElementById('status').textContent='';"
+    onerror="document.getElementById('status').textContent='プレーヤーJavaScriptの読み込みに失敗しました。';">
+  </script>
+
+  <script>
+    window.addEventListener('load', function () {
+      const status = document.getElementById('status');
+      const container = document.getElementById('h5p-container');
+
+      if (!window.H5PStandalone || !window.H5PStandalone.H5P) {
+        status.textContent =
+          'H5Pプレーヤーを読み込めませんでした。';
+        return;
+      }
+
+      const contentFolder = 'MR講義用基礎1';
+      const contentPath =
+        './h5p/' + encodeURIComponent(contentFolder) + '/';
+
+      status.textContent = 'H5P教材を読み込んでいます…';
+
+      try {
+        new H5PStandalone.H5P(container, {
+          h5pJsonPath: contentPath,
+          frameJs: './assets/frame.bundle.js',
+          frameCss: './assets/styles/h5p.css'
+        });
+
+        setTimeout(function () {
+          status.textContent = '';
+        }, 1500);
+
+      } catch (error) {
+        status.textContent =
+          'H5Pの起動中にエラーが発生しました： ' + error.message;
+        console.error(error);
+      }
+    });
+  </script>
+</body>
+</html>
