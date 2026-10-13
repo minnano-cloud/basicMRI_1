@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MRI基礎2｜練習問題</title>
+  <link rel="stylesheet" href="./assets/styles/h5p.css">
+  <style>
+    body { margin: 0; background: #f7f7f7; color: #222; font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif; }
+    header { padding: 18px 20px; background: #fff; border-bottom: 1px solid #ddd; }
+    header h1 { margin: 0; font-size: 1.25rem; }
+    header a { display: inline-block; margin-top: 10px; color: #1756a9; }
+    main { max-width: 1000px; margin: 18px auto; padding: 0 12px 36px; }
+    #status { padding: 12px 16px; background: #f5f5f5; border: 1px solid #ddd; border-radius: 6px; white-space: pre-wrap; overflow-wrap: anywhere; }
+    #h5p-container { margin-top: 14px; background: #fff; padding: 12px; border-radius: 6px; }
+    .error { color: #a00; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>MRI基礎2｜練習問題</h1>
+    <a href="./mri.html">← MRI問題一覧へ戻る</a>
+  </header>
+  <main>
+    <div id="status">H5P教材を読み込んでいます…</div>
+    <div id="h5p-container"></div>
+  </main>
+  <script src="./assets/main.bundle.js" onerror="window.__h5pMainError=true;"></script>
+  <script>
+    window.addEventListener('load', async function () {
+      const status = document.getElementById('status');
+      const container = document.getElementById('h5p-container');
+      const folder = 'MR基礎2';
+      const h5pPath = './h5p/' + encodeURIComponent(folder) + '/';
+      function show(message, error) {
+        status.textContent = message;
+        status.className = error ? 'error' : '';
+      }
+      try {
+        if (window.__h5pMainError || !window.H5PStandalone || !window.H5PStandalone.H5P) {
+          throw new Error('H5P Standaloneプレーヤーを読み込めませんでした。assets/main.bundle.js の場所を確認してください。');
+        }
+        const response = await fetch(h5pPath + 'h5p.json', { cache: 'no-store' });
+        if (!response.ok) throw new Error('h5p.json を取得できませんでした（HTTP ' + response.status + '）。');
+        const contentResponse = await fetch(h5pPath + 'content/content.json', { cache: 'no-store' });
+        if (!contentResponse.ok) throw new Error('content/content.json を取得できませんでした（HTTP ' + contentResponse.status + '）。');
+        show('H5P教材を起動しています…');
+        await new H5PStandalone.H5P(container, {
+          h5pJsonPath: h5pPath,
+          frameJs: './assets/frame.bundle.js',
+          frameCss: './assets/styles/h5p.css'
+        });
+        show('教材を読み込みました。問題に取り組んでください。');
+      } catch (e) {
+        show('教材を読み込めませんでした。
+' + (e && e.message ? e.message : String(e)), true);
+        console.error(e);
+      }
+    });
+  </script>
+</body>
+</html>
