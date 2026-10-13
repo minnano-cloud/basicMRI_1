@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>放射線技術学 学習ポータル</title>
+<style>
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  color: #263447;
+  background: #f3f6fa;
+  line-height: 1.8;
+}
+header {
+  background: linear-gradient(135deg, #173b63, #287c91);
+  color: white;
+  padding: 48px 24px;
+  text-align: center;
+}
+header .eyebrow {
+  letter-spacing: 0.18em;
+  font-size: 13px;
+}
+header h1 {
+  font-size: clamp(28px, 5vw, 42px);
+  line-height: 1.4;
+  margin: 12px 0;
+}
+main {
+  max-width: 1000px;
+  margin: 36px auto;
+  padding: 0 20px;
+}
+h2 {
+  font-size: 22px;
+}
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 18px;
+}
+.card {
+  display: block;
+  padding: 24px;
+  background: white;
+  border-radius: 14px;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid #e0e7ef;
+  box-shadow: 0 4px 14px rgba(30, 60, 90, 0.06);
+}
+.card h3 {
+  color: #1d637c;
+  margin-top: 0;
+}
+.card p {
+  margin-bottom: 0;
+  font-size: 14px;
+}
+.card:hover {
+  border-color: #78aebe;
+}
+footer {
+  text-align: center;
+  padding: 24px;
+  color: #64748b;
+  font-size: 13px;
+}
+</style>
+</head>
+<body>
+<header>
+  <p class="eyebrow">LEARNING PORTAL</p>
+  <h1>放射線技術学<br>学習ポータル</h1>
+  <p>分野を選んで、練習問題に取り組みましょう。<br>繰り返し学習や国家試験対策に活用してください。</p>
+</header>
+<main>
+  <h2>学習する分野を選択</h2>
+  <div class="cards">
+    <a class="card" href="./mri.html">
+      <h3>🧲 MRI</h3>
+      <p>磁気共鳴断層画像技術学。基礎から臨床MRIまで、テーマ別の練習問題を選べます。</p>
+    </a>
+    <a class="card" href="./xray-equipment.html">
+      <h3>🔧 X線機器学 国試対策</h3>
+      <p>X線管、高電圧装置、CR・FPD、X線CTなどの国家試験対策。</p>
+    </a>
+    <a class="card" href="./xray-anatomy.html">
+      <h3>🩻 X線解剖学</h3>
+      <p>1年生向け。頭部基礎などの練習問題を掲載予定です。</p>
+    </a>
+    <a class="card" href="./year2.html">
+      <h3>📚 2年向け 今期学習範囲</h3>
+      <p>放射線治療、核医学、X線画像技術、基礎医学、医療安全など。</p>
+    </a>
+  </div>
+</main>
+<footer>放射線技術学 学習ポータル</footer>
+</body>
+</html>
