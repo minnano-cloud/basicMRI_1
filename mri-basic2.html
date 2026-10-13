@@ -52,8 +52,7 @@
         });
         show('教材を読み込みました。問題に取り組んでください。');
       } catch (e) {
-        show('教材を読み込めませんでした。
-' + (e && e.message ? e.message : String(e)), true);
+        show('教材を読み込めませんでした。\n' + (e && e.message ? e.message : String(e)), true);
         console.error(e);
       }
     });
