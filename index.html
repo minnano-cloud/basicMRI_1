@@ -1,102 +1,28 @@
-<!DOCTYPE html>
-
+<!doctype html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>放射線技術学 学習ポータル</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="放射線技術学 学習ポータルへようこそ。4つの分野から、今日の学習をはじめましょう。">
+<title>ようこそ｜放射線技術学 学習ポータル</title>
+<link rel="icon" href="./learning-entry-assets/favicon.svg" type="image/svg+xml">
 <style>
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
-  color: #263447;
-  background: #f3f6fa;
-  line-height: 1.8;
-}
-header {
-  background: linear-gradient(135deg, #173b63, #287c91);
-  color: white;
-  padding: 48px 24px;
-  text-align: center;
-}
-header .eyebrow {
-  letter-spacing: 0.18em;
-  font-size: 13px;
-}
-header h1 {
-  font-size: clamp(28px, 5vw, 42px);
-  line-height: 1.4;
-  margin: 12px 0;
-}
-main {
-  max-width: 1000px;
-  margin: 36px auto;
-  padding: 0 20px;
-}
-h2 {
-  font-size: 22px;
-}
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 18px;
-}
-.card {
-  display: block;
-  padding: 24px;
-  background: white;
-  border-radius: 14px;
-  text-decoration: none;
-  color: inherit;
-  border: 1px solid #e0e7ef;
-  box-shadow: 0 4px 14px rgba(30, 60, 90, 0.06);
-}
-.card h3 {
-  color: #1d637c;
-  margin-top: 0;
-}
-.card p {
-  margin-bottom: 0;
-  font-size: 14px;
-}
-.card:hover {
-  border-color: #78aebe;
-}
-footer {
-  text-align: center;
-  padding: 24px;
-  color: #64748b;
-  font-size: 13px;
-}
+:root{color-scheme:dark;font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;background:#010002;color:#fff}*{box-sizing:border-box}body{margin:0;min-width:280px}main{min-height:100svh;display:flex;flex-direction:column;align-items:center;overflow:hidden;text-align:center;padding:48px 20px 0}.brand{margin:0;color:#c5b9b2;font-size:12px;letter-spacing:.16em}.welcome{position:relative;z-index:1;margin:auto 0 0;padding:48px 0 0}.eyebrow{color:#efad73;font-size:11px;letter-spacing:.22em;margin:0 0 20px}h1{font-size:clamp(25px,4.2vw,38px);line-height:1.55;letter-spacing:.07em;font-weight:600;margin:0}.intro{font-size:14px;line-height:1.9;color:#c2bbc4;margin:18px 0 26px}.enter{display:inline-flex;align-items:center;justify-content:center;gap:26px;min-height:56px;padding:14px 32px;border-radius:999px;background:#ffc28c;color:#27150c;text-decoration:none;font-size:16px;font-weight:700;transition:background .2s,transform .2s}.enter:hover{background:#ffdab8;transform:translateY(-2px)}.enter:focus-visible{outline:3px solid white;outline-offset:6px}.note{font-size:11px;color:#9a929e;line-height:1.7;margin:18px 0 0}.art{width:min(1000px,125vw);flex-shrink:0;margin:-52px 0 -20px;pointer-events:none}.art img{display:block;width:100%;height:auto}.still{display:none!important}footer{position:relative;color:#8b808b;font-size:10px;letter-spacing:.09em;margin:0;padding:0 16px 24px;text-align:center;background:#010002}@media(min-width:900px) and (min-height:750px){.art{margin-top:-70px;width:min(1080px,100vw)}}@media(max-width:600px){main{padding-top:30px;min-height:calc(100svh - 42px)}.welcome{padding-top:44px}.brand{font-size:10px}.intro{font-size:13px}.art{width:160vw;margin-top:-25px;margin-bottom:0}.note{font-size:10px}footer{font-size:9px}}@media(prefers-reduced-motion:reduce){.animated{display:none!important}.still{display:block!important}.enter{transition:none}.enter:hover{transform:none}}
 </style>
 </head>
 <body>
-<header>
-  <p class="eyebrow">LEARNING PORTAL</p>
-  <h1>放射線技術学<br>学習ポータル</h1>
-  <p>分野を選んで、練習問題に取り組みましょう。<br>繰り返し学習や国家試験対策に活用してください。</p>
-</header>
 <main>
-  <h2>学習する分野を選択</h2>
-  <div class="cards">
-    <a class="card" href="./mri.html">
-      <h3>🧲 MRI</h3>
-      <p>磁気共鳴断層画像技術学。基礎から臨床MRIまで、テーマ別の練習問題を選べます。</p>
-    </a>
-    <a class="card" href="./xray-equipment.html">
-      <h3>🔧 X線機器学 国試対策</h3>
-      <p>X線管、高電圧装置、CR・FPD、X線CTなどの国家試験対策。</p>
-    </a>
-    <a class="card" href="./xray-anatomy.html">
-      <h3>🩻 X線解剖学</h3>
-      <p>1年生向け。頭部基礎などの練習問題を掲載予定です。</p>
-    </a>
-    <a class="card" href="./year2.html">
-      <h3>📚 2年向け 今期学習範囲</h3>
-      <p>放射線治療、核医学、X線画像技術、基礎医学、医療安全など。</p>
-    </a>
-  </div>
+<p class="brand">RADIOLOGICAL TECHNOLOGY</p>
+<section class="welcome" aria-labelledby="welcome-title">
+<p class="eyebrow">WELCOME TO YOUR LEARNING SPACE</p>
+<h1 id="welcome-title">放射線技術学<br>学習ポータル</h1>
+<p class="intro">今日も、一問ずつ。<br>自分のペースで、学びを進めよう。</p>
+<a class="enter" href="./portal.html">学習をはじめる <span aria-hidden="true">→</span></a>
+<p class="note">MRI・X線機器学・X線解剖学・2年向け今期学習範囲</p>
+</section>
+<div class="art" aria-hidden="true"><img class="animated" src="./learning-entry-assets/entrance-pets.gif" width="1536" height="1024" alt=""><img class="still" src="./learning-entry-assets/entrance-pets-still.png" width="1536" height="1024" alt=""></div>
 </main>
-<footer>放射線技術学 学習ポータル</footer>
+<footer>一問ずつ、確かな知識へ。</footer>
 </body>
 </html>
