@@ -21,7 +21,7 @@ main{padding:24px 0 48px}
 .section h2{font-size:1.12rem;margin:0 0 14px}
 .sets{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
 .set{display:flex;flex-direction:column;gap:5px;align-items:flex-start;min-height:94px;padding:13px;border:1px solid var(--line);border-radius:12px;background:var(--soft);color:var(--ink);text-decoration:none}
-.set strong{font-size:1rem}
+.set:focus-visible{outline:3px solid #2457a7;outline-offset:3px}.set[href]:hover{box-shadow:0 4px 14px #2457a722}.set strong{font-size:1rem}
 .detail{font-size:.84rem;color:var(--muted)}
 .status{font-size:.76rem;color:#667085;background:#eef0f3;border-radius:999px;padding:2px 8px}
 .note{font-size:.9rem;color:var(--muted);margin:24px 2px 0}
@@ -38,10 +38,10 @@ footer{padding:20px;text-align:center;color:var(--muted);font-size:.82rem}
   </div>
 </header>
 <main class="wrap">
-  <a class="back" href="./index.html">← 学習ポータルに戻る</a>
+  <a class="back" href="./portal.html">← 学習ポータルに戻る</a>
   <p class="intro">学習したい分野・問題セットを選んでください。通常の問題セットは10問、国家試験形式は20問を予定しています。新しい問題集は準備ができ次第追加します。</p>
   <div id="sections"></div>
-  <p class="note">※ 現在は問題集の準備中です。公開準備ができたセットから順次利用できるようにします。</p>
+  <p class="note">「X線管1」を公開しています。ほかの問題集は準備ができたものから順次公開します。</p>
 </main>
 <footer>学習用教材｜X線機器学国試対策</footer>
 <script>
@@ -66,16 +66,19 @@ groups.forEach(group => {
   const sets = document.createElement("div");
   sets.className = "sets";
   for (let i = 1; i <= group.count; i++) {
-    const card = document.createElement("div");
+    const available = group.title === "X線管 / 高電圧装置" && i === 1;
+    const card = document.createElement(available ? "a" : "div");
+    if (available) { card.href = "./xray-tube1.html"; card.style.borderColor = "#76a9d8"; card.style.background = "#eef6ff"; }
     card.className = "set";
     const title = document.createElement("strong");
-    title.textContent = group.title === "国家試験形式20問" ? `セット ${i}` : `${group.title} ${i}`;
+    title.textContent = available ? "X線管1" : group.title === "国家試験形式20問" ? `セット ${i}` : `${group.title} ${i}`;
     const detail = document.createElement("span");
     detail.className = "detail";
     detail.textContent = `${group.questions}問`;
     const status = document.createElement("span");
     status.className = "status";
-    status.textContent = "準備中";
+    status.textContent = available ? "公開中・10問" : "準備中";
+    if (available) { status.style.color = "#165a43"; status.style.background = "#e2f4eb"; }
     card.append(title, detail, status);
     sets.appendChild(card);
   }
