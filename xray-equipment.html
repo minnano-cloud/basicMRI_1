@@ -41,7 +41,7 @@ footer{padding:20px;text-align:center;color:var(--muted);font-size:.82rem}
   <a class="back" href="./portal.html">← 学習ポータルに戻る</a>
   <p class="intro">学習したい分野・問題セットを選んでください。通常の問題セットは10問、国家試験形式は20問を予定しています。新しい問題集は準備ができ次第追加します。</p>
   <div id="sections"></div>
-  <p class="note">「X線管1」を公開しています。ほかの問題集は準備ができたものから順次公開します。</p>
+  <p class="note">「X線管1」「X線管2」を公開しています。ほかの問題集は準備ができたものから順次公開します。</p>
 </main>
 <footer>学習用教材｜X線機器学国試対策</footer>
 <script>
@@ -66,12 +66,12 @@ groups.forEach(group => {
   const sets = document.createElement("div");
   sets.className = "sets";
   for (let i = 1; i <= group.count; i++) {
-    const available = group.title === "X線管 / 高電圧装置" && i === 1;
+    const available = group.title === "X線管 / 高電圧装置" && (i === 1 || i === 2);
     const card = document.createElement(available ? "a" : "div");
-    if (available) { card.href = "./xray-tube1.html"; card.style.borderColor = "#76a9d8"; card.style.background = "#eef6ff"; }
+    if (available) { card.href = `./xray-tube${i}.html`; card.style.borderColor = "#76a9d8"; card.style.background = "#eef6ff"; }
     card.className = "set";
     const title = document.createElement("strong");
-    title.textContent = available ? "X線管1" : group.title === "国家試験形式20問" ? `セット ${i}` : `${group.title} ${i}`;
+    title.textContent = available ? `X線管${i}` : group.title === "国家試験形式20問" ? `セット ${i}` : `${group.title} ${i}`;
     const detail = document.createElement("span");
     detail.className = "detail";
     detail.textContent = `${group.questions}問`;

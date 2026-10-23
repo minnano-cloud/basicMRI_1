@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>X線管2｜X線機器学 国試対策</title><link rel="stylesheet" href="./assets/styles/h5p.css"><style>
+*{box-sizing:border-box}body{margin:0;background:#f4f6fa;color:#203047;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;line-height:1.7}header{background:linear-gradient(135deg,#173b72,#2d67b2);padding:30px 20px;color:white}.wrap{width:min(1000px,calc(100% - 32px));margin:auto}header .wrap{width:min(1000px,100%)}h1{margin:5px 0;font-size:clamp(1.6rem,4vw,2.2rem)}header p{margin:0;font-size:.9rem}main{padding:24px 0 40px}.back{display:inline-block;color:#2457a7;font-weight:700;text-decoration:none;margin:0 18px 16px 0}.back:hover{text-decoration:underline}a:focus-visible,button:focus-visible{outline:3px solid #2457a7;outline-offset:4px}.instruction{margin:0 0 18px;color:#526276;font-size:.95rem}.panel{background:white;border:1px solid #dfe7f0;border-radius:16px;padding:20px;min-height:180px}.status{padding:18px;border-radius:10px;background:#eef4fb;white-space:pre-wrap}.error{color:#8c2626;background:#fff0f0}button{margin-top:14px;border:1px solid #2457a7;background:white;color:#2457a7;border-radius:8px;padding:10px 16px;font:inherit;cursor:pointer}footer{text-align:center;color:#627187;font-size:.8rem;padding:0 16px 24px}@media(max-width:600px){.panel{padding:10px}}
+</style></head><body><header><div class="wrap"><p>X線機器学 国試対策 ／ X線管・高電圧装置</p><h1>X線管2</h1><p>全10問</p></div></header><main class="wrap"><nav aria-label="戻る"><a class="back" href="./xray-equipment.html">← X線機器学の問題集一覧へ</a><a class="back" href="./portal.html">学習ポータルへ</a></nav><p class="instruction">各問題に解答して正誤を確認しましょう。最後に合計得点を確認でき、何度でも取り組めます。</p><section class="panel" aria-label="練習問題"><div id="player-status" class="status" role="status" aria-live="polite">H5P教材を読み込んでいます…</div><div id="h5p-container"></div><button id="reload" hidden>ページを再読み込み</button></section></main><footer>放射線技術学 学習ポータル</footer><script src="./assets/main.bundle.js"></script><script>
+(async function () {
+  'use strict';
+  const status = document.getElementById('player-status');
+  const retry = document.getElementById('reload');
+  retry.addEventListener('click', function () { location.reload(); });
+  try {
+    if (!window.H5PStandalone || !window.H5PStandalone.H5P) throw new Error('H5Pプレーヤーを読み込めませんでした。');
+    const path = './h5p/' + encodeURIComponent('X線管2') + '/';
+    const responses = await Promise.all([fetch(path + 'h5p.json'), fetch(path + 'content/content.json')]);
+    if (responses.some(function (r) { return !r.ok; })) throw new Error('教材データを読み込めませんでした。');
+    await new window.H5PStandalone.H5P(document.getElementById('h5p-container'), {
+      h5pJsonPath: path,
+      frameJs: './assets/frame.bundle.js',
+      frameCss: './assets/styles/h5p.css'
+    });
+    status.hidden = true;
+  } catch (e) {
+    status.classList.add('error');
+    status.textContent = '教材を読み込めませんでした。\n' + (e.message || String(e));
+    retry.hidden = false;
+  }
+})();
+</script></body></html>
