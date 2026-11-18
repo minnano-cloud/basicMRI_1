@@ -1,0 +1,658 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>2. 緩和現象・SE法・高速SE法｜磁気共鳴断層画像技術学</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f4f6fa;color:#203047;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;line-height:1.7}
+header{background:linear-gradient(135deg,#173b72,#2d67b2);padding:16px 20px;color:#fff}
+.wrap{width:min(1000px,calc(100% - 32px));margin:auto}
+header .wrap{width:min(1000px,100%)}
+h1{margin:2px 0;font-size:clamp(1.3rem,3.5vw,1.9rem);line-height:1.35}
+header .count{font-size:.85rem;opacity:.9;margin-left:.6em;font-weight:400}
+header p{margin:0;font-size:.9rem}
+main{padding:16px 0 40px}
+.back{display:inline-block;color:#2457a7;font-weight:700;text-decoration:none;margin:0 18px 16px 0}
+.back:hover{text-decoration:underline}
+a:focus-visible,button:focus-visible{outline:3px solid #2457a7;outline-offset:4px}
+.instruction{margin:0 0 18px;color:#526276;font-size:.95rem}
+.panel{background:#fff;border:1px solid #dfe7f0;border-radius:16px;padding:24px;margin-bottom:16px}
+.panel h2{font-size:1.1rem;margin:0 0 8px}
+.scope{margin:0 0 6px;font-weight:700}
+.muted{color:#627187;font-size:.9rem}
+.options{display:flex;gap:18px;flex-wrap:wrap;font-size:.92rem;color:#526276;margin:14px 0 4px}
+.options label{display:flex;align-items:center;gap:6px;cursor:pointer}
+.progress{display:flex;align-items:center;gap:12px;margin-bottom:16px;font-size:.88rem;color:#627187}
+.bar{flex:1;height:8px;background:#e4ebf3;border-radius:99px;overflow:hidden}
+.bar>span{display:block;height:100%;background:#2457a7;width:0;transition:width .3s}
+.qnum{font-weight:700;color:#2457a7;font-size:.9rem}
+.qtext{font-size:1.1rem;font-weight:700;margin:.2em 0 .9em}
+.multi-note{display:inline-block;font-size:.8rem;font-weight:700;color:#8a5a00;background:#fff4dc;border-radius:99px;padding:1px 10px;margin-bottom:10px}
+.qimg{display:block;max-width:min(100%,420px);height:auto;margin:0 auto 16px;border-radius:10px;cursor:zoom-in}
+.choices{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.choices.imgs{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+.choice{width:100%;text-align:left;display:flex;gap:12px;align-items:flex-start;background:#fff;border:2px solid #dfe7f0;border-radius:12px;padding:12px 14px;font:inherit;color:inherit;cursor:pointer;transition:border-color .15s,background .15s;margin:0}
+.choice:hover:not(:disabled){border-color:#2457a7;background:#eef4fb}
+.choice:disabled{cursor:default}
+.choice .no{flex:none;width:26px;height:26px;border-radius:50%;background:#eef4fb;color:#2457a7;display:grid;place-items:center;font-weight:700;font-size:.85rem;margin-top:1px}
+.choice .body{flex:1;min-width:0}
+.choice img{max-width:100%;height:auto;display:block}
+.choices.imgs .choice{flex-direction:column;align-items:center}
+.choices.tf{grid-template-columns:1fr 1fr}
+.choices.tf .choice{flex-direction:column;align-items:center;text-align:center;padding:14px 8px;font-weight:700}
+.choices.tf .choice .no{display:none}
+.choices.tf .choice .body{font-size:1.05rem}
+.choices.tf .cfb{text-align:left;font-weight:400}
+.badge{display:inline-block;font-size:.75rem;font-weight:700;color:#2457a7;background:#eef4fb;border:1px solid #c9d9ee;border-radius:99px;padding:0 10px;margin-bottom:4px}
+.qtext .stem{font-weight:400;font-size:.9rem;color:#526276;background:#f6f8fb;border-radius:8px;padding:8px 12px;margin:2px 0 10px;line-height:1.65}
+.badge.judge-b{color:#1f7a4f;background:#e8f7ef;border-color:#bfe3cf}
+.qtext .judge{margin-top:2px}
+.rq .stem{font-weight:400;color:#627187;font-size:.88rem}
+.rq .badge{margin:2px 4px 2px 0}
+.qtag{font-weight:400;color:#627187;font-size:.8rem;margin-left:.5em}
+.dots.many .dot{width:28px;height:28px;font-size:.75rem}
+.choice.selected{border-color:#2457a7;background:#eef4fb}
+.choice.selected .no{background:#2457a7;color:#fff}
+.choice.correct{border-color:#1f9d63;background:#e8f7ef}
+.choice.correct .no{background:#1f9d63;color:#fff}
+.choice.wrong{border-color:#c94040;background:#fdeeee}
+.choice.wrong .no{background:#c94040;color:#fff}
+.choice.missed{border-style:dashed;border-color:#1f9d63}
+.cfb{display:none;margin-top:6px;font-size:.88rem;color:#526276;border-top:1px dashed #d5dee8;padding-top:6px}
+.answered .cfb{display:block}
+.dots{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 16px;padding:0;list-style:none}
+.dot{width:32px;height:32px;border-radius:50%;border:2px solid #dfe7f0;background:#fff;color:#526276;font:inherit;font-size:.8rem;font-weight:700;cursor:pointer;padding:0;margin:0}
+.dot.ok{background:#1f9d63;border-color:#1f9d63;color:#fff}
+.dot.ng{background:#c94040;border-color:#c94040;color:#fff}
+.dot.cur{outline:3px solid #2457a7;outline-offset:2px}
+.exp-box{font-weight:400;color:#203047;margin-top:6px;line-height:1.75}
+.notice{margin-top:16px;border-radius:12px;padding:14px 16px;background:#fff4dc;color:#6b4a00;font-weight:700}
+.notice[hidden]{display:none}
+.actions .left{margin-right:auto}
+.tag.na{background:#eef1f5;color:#627187}
+.verdict{display:none;margin-top:16px;border-radius:12px;padding:12px 16px;font-weight:700}
+.verdict.show{display:block}
+.verdict.ok{background:#e8f7ef;color:#1f7a4f}
+.verdict.ng{background:#fdeeee;color:#a12f2f}
+.actions{display:flex;gap:10px;justify-content:flex-end;margin-top:16px;flex-wrap:wrap}
+.btn{border:1px solid #2457a7;background:#2457a7;color:#fff;border-radius:8px;padding:10px 20px;font:inherit;font-weight:700;cursor:pointer}
+.btn:hover{filter:brightness(1.1)}
+.btn:disabled{opacity:.4;cursor:default;filter:none}
+.btn.ghost{background:#fff;color:#2457a7}
+.btn[hidden],.actions[hidden]{display:none}
+.next-set{background:#1f9d63;border-color:#1f9d63;text-decoration:none;display:inline-block}
+.score{font-size:2.6rem;font-weight:800;color:#2457a7;margin:.1em 0;line-height:1.3}
+.score small{font-size:1rem;color:#627187;font-weight:600}
+.passmsg{font-weight:700}
+.passmsg.ok{color:#1f7a4f}.passmsg.ng{color:#a12f2f}
+.review-item{border-top:1px solid #e4ebf3;padding:14px 0}
+.review-item:first-of-type{border-top:none}
+.rq{font-weight:700}
+.tag{display:inline-block;font-size:.75rem;font-weight:700;padding:1px 8px;border-radius:99px;margin-right:6px}
+.tag.ok{background:#e8f7ef;color:#1f7a4f}.tag.ng{background:#fdeeee;color:#a12f2f}
+.ans{font-size:.92rem;margin:.3em 0}
+.ans img{height:2.2em;width:auto;vertical-align:middle;margin:0 2px}
+.exp{font-size:.88rem;color:#526276;margin:.2em 0 0;padding-left:1em}
+.zoom{position:fixed;inset:0;background:rgba(10,20,35,.85);display:none;align-items:center;justify-content:center;padding:16px;z-index:10;cursor:zoom-out}
+.zoom.show{display:flex}
+.zoom img{max-width:100%;max-height:100%;border-radius:8px}
+footer{text-align:center;color:#627187;font-size:.8rem;padding:0 16px 24px}
+@media(max-width:600px){.panel{padding:16px}header{padding:10px 16px}header p{font-size:.75rem}h1{font-size:1.2rem}main{padding:10px 0 32px}.back{margin:0 14px 8px 0;font-size:.9rem}.instruction{font-size:.85rem;margin-bottom:12px;line-height:1.6}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><p>磁気共鳴断層画像技術学 ／ 1問1答形式で連続で問題を解く</p><h1>2. 緩和現象・SE法・高速SE法<span class="count">全20問・○×形式</span></h1></div></header>
+<main class="wrap">
+  <nav aria-label="戻る"><a class="back" href="./mri.html">← MRI問題集へもどる</a><a class="back" href="./portal.html">学習ポータルにもどる</a></nav>
+  <p class="instruction">○か×を選ぶと、すぐに正誤と解説が表示されます。「元の設問」は国試の問題文で、その中の「判定する選択肢」が正しいか誤りかを答えます。「スキップ」で後回しにしたり、上の番号から好きな問題に移動したりできます。最後に合計得点を確認でき、何度でも取り組めます。</p>
+
+  <section class="panel" id="start">
+    <p class="scope">緩和現象・SE法・高速SE法</p>
+    <p class="muted">全20問 ／ 目標：80%以上の正解</p>
+    
+    <div class="options">
+      <label><input type="checkbox" id="optShuffleQ" checked> 問題の順番をシャッフル</label>
+      <label><input type="checkbox" id="optShuffleC" checked> 選択肢をシャッフル</label>
+    </div>
+    <p class="muted" id="bestStart"></p>
+    <div class="actions"><button class="btn" id="btnStart">開始</button></div>
+  </section>
+
+  <section class="panel" id="quiz" hidden>
+    <div class="progress"><span id="progText"></span><div class="bar"><span id="progBar"></span></div><span id="scoreNow"></span></div>
+    <ul class="dots" id="dots" aria-label="問題一覧（押すとその問題へ移動）"></ul>
+    <div class="qnum" id="qnum"></div>
+    <div class="qtext" id="qtext"></div>
+    <div id="multiNote"></div>
+    <div id="qimgWrap"></div>
+    <ul class="choices" id="choices"></ul>
+    <div class="verdict" id="verdict" role="status" aria-live="polite"></div>
+    <div class="notice" id="notice" hidden>
+      <div id="noticeText"></div>
+      <div class="actions">
+        <button class="btn ghost" id="btnToUnanswered">未回答の問題へ</button>
+        <button class="btn" id="btnFinishAnyway">このまま結果を表示</button>
+      </div>
+    </div>
+    <div class="actions" id="navActions">
+      <button class="btn ghost left" id="btnPrev">← 前へ</button>
+      <button class="btn ghost" id="btnSkip" hidden>スキップ</button>
+      <button class="btn" id="btnCheck" hidden disabled>解答</button>
+      <button class="btn" id="btnNext" hidden>次へ →</button>
+    </div>
+  </section>
+
+  <section id="result" hidden>
+    <div class="panel">
+      <h2>結果</h2>
+      <div class="score" id="scoreBig"></div>
+      <div class="passmsg" id="passMsg"></div>
+      <div class="muted" id="bestResult"></div>
+      <div class="actions">
+        <button class="btn ghost" id="btnRetryWrong">間違えた問題だけ解き直す</button>
+        <button class="btn" id="btnRetryAll">もう一度挑戦</button>
+        <a class="btn next-set" id="btnNextSet" hidden></a>
+      </div>
+    </div>
+    <div class="panel"><h2>ふりかえり</h2><div id="review"></div></div>
+  </section>
+</main>
+<footer>放射線技術学 学習ポータル</footer>
+<div class="zoom" id="zoom"><img alt="拡大画像" id="zoomImg"></div>
+
+<script>
+/* ===== 問題データ =====
+   q: 問題文 / img: 問題の画像(任意)
+   exp: 解答後に表示するまとめの解説(任意)
+   choices: t=選択肢の文, img=選択肢の画像, ok=正解ならtrue, fb=選択肢ごとの解説(任意)
+   正解(ok:true)を2つ以上にすると「2つ選べ」形式になります。 */
+const QUESTIONS = [
+  {
+    "q": "<span class=\"badge\">元の設問</span><div class=\"stem\">MRIで正しいのはどれか。</div><span class=\"badge judge-b\">判定する選択肢</span><div class=\"judge\">T2緩和時間はT2*緩和時間より短い。</div>",
+    "choices": [
+      {
+        "t": "○ 正しい",
+        "ok": false
+      },
+      {
+        "t": "× 誤り",
+        "ok": true
+      }
+    ],
+    "tf": true,
+    "exp": "T2*にはT2緩和に加え、静磁場の不均一などによる位相分散も含まれる。通常はT2*の方が短い。",
+    "tag": "横緩和｜MRI基礎2 問2・肢1"
+  },
+  {
+    "q": "<span class=\"badge\">元の設問</span><div class=\"stem\">脳のMRIで正しいのはどれか。</div><span class=\"badge judge-b\">判定する選択肢</span><div class=\"judge\">T2強調像で灰白質は白質よりも高信号となる。</div>",
+    "choices": [
+      {
+        "t": "○ 正しい",
+        "ok": true
+      },
+      {
+        "t": "× 誤り",
+        "ok": false
+      }
+    ],
+    "tf": true,
+    "exp": "通常の頭部T2強調像では、T2の長い灰白質の方が白質より明るく見える。",
+    "tag": "横緩和｜2016-14・肢3"
+  },
+  {
+    "q": "<span class=\"badge\">元の設問</span><div class=\"stem\">MRIで正しいのはどれか。2つ選べ。</div><span class=\"badge judge-b\">判定する選択肢</span><div class=\"judge\">RFパルスは横磁化を減少させる。</div>",
+    "choices": [
+      {
+        "t": "○ 正しい",
+        "ok": false
+      },
+      {
+        "t": "× 誤り",
+        "ok": true
+      }
+    ],
+    "tf": true,
+    "exp": "熱平衡にある磁化を励起すると、磁化が傾き、横磁化が生じる。励起後は横緩和によって減衰する。",
+    "tag": "横緩和｜MRI基礎2 問1・肢3"
+  },
+  {
+    "q": "<span class=\"badge\">元の設問</span><div class=\"stem\">拡散強調像について正しいのはどれか。2つ選べ。</div><span class=\"badge judge-b\">判定する選択肢</span><div class=\"judge\">組織のT2値の影響を受ける。</div>",
+    "choices": [
+      {
+        "t": "○ 正しい",
+        "ok": true
+      },
+      {
+        "t": "× 誤り",
+        "ok": false
+      }
+    ],
+    "tf": true,
+    "exp": "拡散強調像の信号には組織のT2も影響する。拡散制限かどうかは同じ位置のADCも確認する。",
+    "tag": "横緩和｜2018-18・肢3"
+  },
+  {
+    "q": "<span class=\"badge\">元の設問</span><div class=\"stem\">MRIで正しいのはどれか。</div><span class=\"badge judge-b\">判定する選択肢</span><div class=\"judge\">水のT1緩和時間は筋肉のT1緩和時間より長い。</div>",
+    "choices": [
+      {
+        "t": "○ 正しい",
+        "ok": true
+      },
+      {
+        "t": "× 誤り",
+        "ok": false
+      }
+    ],
+    "tf": true,
+    "exp": "T1は縦磁化が回復する速さを表す時定数。水は一般に筋肉よりT1が長く、回復が遅い。",
+    "tag": "縦緩和｜MRI基礎2 問2・肢2"
+  },
+  {
+    "q": "<span class=\"badge\">元の設問</span><div class=\"stem\">MRIで正しいのはどれか。2つ選べ。</div><span class=\"badge judge-b\">判定する選択肢</span><div class=\"judge\">脂肪のT1緩和時間は水のT1緩和時間より長い。</div>",
+    "choices": [
+      {
+        "t": "○ 正しい",
+        "ok": false
+      },
+      {
+        "t": "× 誤り",
+        "ok": true
+      }
+    ],
+    "tf": true,
+    "exp": "一般に脂肪のT1は水より短い。脂肪の縦磁化の方が速く回復する。",
+    "tag": "縦緩和｜MRI基礎5 問1・肢2"
+  },
+  {
+    "q": "<span class=\"badge\">元の設問</span><div class=\"stem\">MRIで正しいのはどれか。2つ選べ。</div><span class=\"badge judge-b\">判定する選択肢</span><div class=\"judge\">T1は磁場が強いほど長くなる。</div>",
+    "choices": [
+      {
+        "t": "○ 正しい",
+        "ok": true
+      },
+      {
+        "t": "× 誤り",
+        "ok": false
+      }
+    ],
+    "tf": true,
+    "exp": "同じ生体組織では、一般に静磁場が強くなるほどT1は長くなる。",
+    "tag": "縦緩和｜MRI基礎2 問1・肢4"
+  },
+  {
+    "q": "<span class=\"badge\">元の設問</span><div class=\"stem\">MRIで正しいのはどれか。</div><span class=\"badge judge-b\">判定する選択肢</span><div class=\"judge\">筋肉のT1緩和時間は脂肪のT1緩和時間より短い。</div>",
+    "choices": [
+      {
+        "t": "○ 正しい",
+        "ok": false
+      },
+      {
+        "t": "× 誤り",
+        "ok": true
+      }
+    ],
+    "tf": true,
+    "exp": "一般に筋肉のT1は脂肪より長い。脂肪の方が縦磁化の回復が速い。",
+    "tag": "縦緩和｜MRI基礎2 問2・肢3"
+  },
+  {
+    "q": "<span class=\"badge\">元の設問</span><div class=\"stem\">パラレルイメージングを併用した高速スピンエコー法で撮影した場合の撮影時間[s]はどれか。<br>　ただし、TR 4,000 ms、TE 100 ms、FOV 32 cm、周波数エンコード数512、位相エンコード数256、エコートレイン数32、加算回数2、パラレルイメージングファクタ4とする。</div><span class=\"badge judge-b\">判定する選択肢</span><div class=\"judge\">16</div>",
+    "choices": [
+      {
+        "t": "○ 正しい",
+        "ok": true
+      },
+      {
+        "t": "× 誤り",
+        "ok": false
+      }
+    ],
+    "tf": true,
+    "exp": "試験の条件では、4秒 × 256 × 2 ÷ 32 ÷ 4 ＝ 16秒。エコートレイン数と並列撮像の加速係数で割る。",
+    "tag": "スピンエコー｜2017-01・肢2"
+  },
+  {
+    "q": "<span class=\"badge\">元の設問</span><div class=\"stem\">MRIの高速スピンエコー法で正しいのはどれか。</div><span class=\"badge judge-b\">判定する選択肢</span><div class=\"judge\">エコートレイン数よりも再収束パルス数は多くなる。</div>",
+    "choices": [
+      {
+        "t": "○ 正しい",
+        "ok": false
+      },
+      {
+        "t": "× 誤り",
+        "ok": true
+      }
+    ],
+    "tf": true,
+    "exp": "基本的な高速スピンエコー法では、再収束パルス1回につき1つのエコーを得る。再収束パルス数がエコートレイン数を上回る、という関係ではない。",
+    "tag": "スピンエコー｜2016-11・肢2"
+  },
+  {
+    "q": "<span class=\"badge\">元の設問</span><div class=\"stem\">SE法と比較した高速SE法の特徴で正しいのはどれか。2つ選べ。</div><span class=\"badge judge-b\">判定する選択肢</span><div class=\"judge\">ブラーリングの発生</div>",
+    "choices": [
+      {
+        "t": "○ 正しい",
+        "ok": true
+      },
+      {
+        "t": "× 誤り",
+        "ok": false
+      }
+    ],
+    "tf": true,
+    "exp": "高速SEでは一連のエコーの信号がT2減衰で変化するため、画像にブラーリング（ぼけ）が生じることがある。",
+    "tag": "スピンエコー｜MRI基礎5 問5・肢5"
+  },
+  {
+    "q": "<span class=\"badge\">元の設問</span><div class=\"stem\">MRIの高速スピンエコー法で正しいのはどれか。</div><span class=\"badge judge-b\">判定する選択肢</span><div class=\"judge\">エコートレイン数と周波数エンコード数は同数である。</div>",
+    "choices": [
+      {
+        "t": "○ 正しい",
+        "ok": false
+      },
+      {
+        "t": "× 誤り",
+        "ok": true
+      }
+    ],
+    "tf": true,
+    "exp": "エコートレイン数は1回の励起後に収集するエコーの数。周波数エンコード数は読み出し方向のサンプル数で、同じ指標ではない。",
+    "tag": "スピンエコー｜2016-11・肢5"
+  },
+  {
+    "q": "<span class=\"badge\">元の設問</span><div class=\"stem\">MRIの磁化率アーチファクトを抑制する方法で正しいのはどれか。</div><span class=\"badge judge-b\">判定する選択肢</span><div class=\"judge\">GRE法ではなくSE法を用いる。</div>",
+    "choices": [
+      {
+        "t": "○ 正しい",
+        "ok": true
+      },
+      {
+        "t": "× 誤り",
+        "ok": false
+      }
+    ],
+    "tf": true,
+    "exp": "SE法の再収束パルスは静的な磁場の不均一による位相のずれを補う。そのため、通常はGRE法より磁化率アーチファクトを抑えやすい。",
+    "tag": "SE法｜2022-07・肢5"
+  },
+  {
+    "q": "<span class=\"badge\">元の設問</span><div class=\"stem\">SE法によってTR400 ms、TE10 msで撮影された頭部MR像について正しいのはどれか。</div><span class=\"badge judge-b\">判定する選択肢</span><div class=\"judge\">脂肪は低信号で描出される。</div>",
+    "choices": [
+      {
+        "t": "○ 正しい",
+        "ok": false
+      },
+      {
+        "t": "× 誤り",
+        "ok": true
+      }
+    ],
+    "tf": true,
+    "exp": "この条件は短TR・短TEのT1強調。脂肪抑制がなければ、脂肪は一般に高信号となる。",
+    "tag": "SE法｜2018-17・肢1"
+  },
+  {
+    "q": "<span class=\"badge\">元の設問</span><div class=\"stem\">SE法によってTR400 ms、TE10 msで撮影された頭部MR像について正しいのはどれか。2つ選べ。</div><span class=\"badge judge-b\">判定する選択肢</span><div class=\"judge\">T2強調画像が得られる。</div>",
+    "choices": [
+      {
+        "t": "○ 正しい",
+        "ok": false
+      },
+      {
+        "t": "× 誤り",
+        "ok": true
+      }
+    ],
+    "tf": true,
+    "exp": "通常のSE法でTR 400 ms、TE 10 msは短TR・短TEの組合せで、T1強調像となる。",
+    "tag": "SE法｜MRI基礎5 問10・肢2"
+  },
+  {
+    "q": "<span class=\"badge\">元の設問</span><div class=\"stem\">SE法によってTR400 ms、TE10 msで撮影された頭部MR像について正しいのはどれか。</div><span class=\"badge judge-b\">判定する選択肢</span><div class=\"judge\">脳下垂体後葉は高信号で描出される。</div>",
+    "choices": [
+      {
+        "t": "○ 正しい",
+        "ok": true
+      },
+      {
+        "t": "× 誤り",
+        "ok": false
+      }
+    ],
+    "tf": true,
+    "exp": "通常の頭部T1強調像では、下垂体後葉に特徴的な高信号がみられる。",
+    "tag": "SE法｜2018-17・肢4"
+  },
+  {
+    "q": "<span class=\"badge\">元の設問</span><div class=\"stem\">MRIの高速SE法で数値を大きくすると撮影時間が短縮するのはどれか。</div><span class=\"badge judge-b\">判定する選択肢</span><div class=\"judge\">エコートレイン数</div>",
+    "choices": [
+      {
+        "t": "○ 正しい",
+        "ok": true
+      },
+      {
+        "t": "× 誤り",
+        "ok": false
+      }
+    ],
+    "tf": true,
+    "exp": "エコートレイン数を増やすと、1回の励起で収集する位相エンコードが増え、同じ条件なら撮影時間は短くなる。",
+    "tag": "高速SE｜2023-12・肢5"
+  },
+  {
+    "q": "<span class=\"badge\">元の設問</span><div class=\"stem\">FSE法によって撮影されたT2強調像について正しいのはどれか。2つ選べ。</div><span class=\"badge judge-b\">判定する選択肢</span><div class=\"judge\">関節の靭帯は高信号である。</div>",
+    "choices": [
+      {
+        "t": "○ 正しい",
+        "ok": false
+      },
+      {
+        "t": "× 誤り",
+        "ok": true
+      }
+    ],
+    "tf": true,
+    "exp": "通常の高速SEによるT2強調像では、正常な関節靭帯は低信号となる。",
+    "tag": "高速SE｜2019-01・肢3"
+  },
+  {
+    "q": "<span class=\"badge\">元の設問</span><div class=\"stem\">FSE法によって撮影されたT2強調像について正しいのはどれか。2つ選べ。</div><span class=\"badge judge-b\">判定する選択肢</span><div class=\"judge\">脂肪髄は高信号である。</div>",
+    "choices": [
+      {
+        "t": "○ 正しい",
+        "ok": true
+      },
+      {
+        "t": "× 誤り",
+        "ok": false
+      }
+    ],
+    "tf": true,
+    "exp": "脂肪抑制のない高速SEのT2強調像では、脂肪髄が高信号に描出される。",
+    "tag": "高速SE｜2019-01・肢2"
+  },
+  {
+    "q": "<span class=\"badge\">元の設問</span><div class=\"stem\">MRIの高速SE法で数値を大きくすると撮影時間が短縮するのはどれか。</div><span class=\"badge judge-b\">判定する選択肢</span><div class=\"judge\">加算回数</div>",
+    "choices": [
+      {
+        "t": "○ 正しい",
+        "ok": false
+      },
+      {
+        "t": "× 誤り",
+        "ok": true
+      }
+    ],
+    "tf": true,
+    "exp": "加算回数を増やすと同じデータを繰り返し収集するため、他条件が同じなら撮影時間は延びる。",
+    "tag": "高速SE｜2023-12・肢3"
+  }
+];
+const PASS = 80;
+/* 結果画面の「次の問題に進む」ボタンのリンク先（不要なら null） */
+const NEXT_SET = null;
+const STORAGE_KEY = "quiz-mriquickquiz2-best";
+
+/* ===== 動作部分（通常は編集不要） ===== */
+const $ = id => document.getElementById(id);
+let order=[], pos=0, state=[], corder=[], selected=new Set();
+
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function getBest(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY));}catch(e){return null;}}
+function setBest(v){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(v));}catch(e){}}
+function showBest(el){const b=getBest();el.textContent=b?`これまでの最高記録：${b.score} / ${b.total}問（${b.date}）`:"";}
+function choiceHTML(c){return c.img?`<img src="${c.img}" alt="${c.t||"選択肢の画像"}">`:(c.t||"");}
+function correctIdx(q){return q.choices.map((c,i)=>c.ok?i:-1).filter(i=>i>=0);}
+function nCorrect(){return state.filter(s=>s&&s.ok).length;}
+function nAnswered(){return state.filter(Boolean).length;}
+
+function start(list){
+  const base=list||QUESTIONS.map((_,i)=>i);
+  order=$("optShuffleQ").checked?shuffle(base):base;
+  const sc=$("optShuffleC").checked;
+  corder=order.map(qi=>{const ix=QUESTIONS[qi].choices.map((_,i)=>i);return (sc&&!QUESTIONS[qi].tf)?shuffle(ix):ix;});
+  state=order.map(()=>null);pos=0;
+  $("start").hidden=true;$("result").hidden=true;$("quiz").hidden=false;
+  render();toQuizTop();
+}
+
+function renderDots(){
+  const ul=$("dots");ul.innerHTML="";ul.className="dots"+(order.length>12?" many":"");
+  order.forEach((_,i)=>{
+    const li=document.createElement("li"),b=document.createElement("button");
+    b.className="dot"+(state[i]?(state[i].ok?" ok":" ng"):"")+(i===pos?" cur":"");
+    b.textContent=i+1;b.title=state[i]?(state[i].ok?"正解":"不正解"):"未回答";
+    b.setAttribute("aria-label",`問題${i+1}（${b.title}）`);
+    b.addEventListener("click",()=>go(i));
+    li.appendChild(b);ul.appendChild(li);
+  });
+}
+
+function render(){
+  const q=QUESTIONS[order[pos]], st=state[pos], multi=correctIdx(q).length>1;
+  selected=new Set();
+  $("notice").hidden=true;$("navActions").hidden=false;
+  $("progText").textContent=`${pos+1} / ${order.length}`;
+  $("progBar").style.width=(nAnswered()/order.length*100)+"%";
+  $("scoreNow").textContent=`正解 ${nCorrect()}`;
+  renderDots();
+  $("qnum").innerHTML=`問題 ${pos+1}`+(q.tag?`<span class="qtag">${q.tag}</span>`:"");
+  $("qtext").innerHTML=q.q;
+  $("multiNote").innerHTML=multi?`<span class="multi-note">${correctIdx(q).length}つ選んでから「解答」を押してください</span>`:"";
+  $("qimgWrap").innerHTML=q.img?`<img class="qimg" src="${q.img}" alt="問題の画像（タップで拡大）">`:"";
+  const ul=$("choices");ul.innerHTML="";ul.className="choices"+(q.choices.some(c=>c.img)?" imgs":"")+(q.tf?" tf":"");
+  corder[pos].forEach((orig,n)=>{
+    const c=q.choices[orig],li=document.createElement("li"),b=document.createElement("button");
+    b.className="choice";b.dataset.orig=orig;
+    b.innerHTML=`<span class="no">${n+1}</span><span class="body">${choiceHTML(c)}${c.fb?`<span class="cfb">${c.fb}</span>`:""}</span>`;
+    b.addEventListener("click",()=>multi?toggle(orig,b,q):answer(new Set([orig])));
+    li.appendChild(b);ul.appendChild(li);
+  });
+  $("verdict").className="verdict";
+  if(st)showAnswered(q,st);
+  $("btnPrev").disabled=pos===0;
+  $("btnSkip").hidden=!!st;
+  $("btnCheck").hidden=!multi||!!st;$("btnCheck").disabled=true;
+  $("btnNext").hidden=!st;
+  $("btnNext").textContent=pos===order.length-1?"結果を表示":"次へ →";
+}
+
+function showAnswered(q,st){
+  $("choices").classList.add("answered");
+  document.querySelectorAll(".choice").forEach(b=>{
+    b.disabled=true;
+    const o=Number(b.dataset.orig);
+    if(q.choices[o].ok)b.classList.add("correct",...(st.chosen.includes(o)?[]:["missed"]));
+    else if(st.chosen.includes(o))b.classList.add("wrong");
+  });
+  const v=$("verdict");
+  v.className="verdict show "+(st.ok?"ok":"ng");
+  v.innerHTML=(st.ok?"正解！":"不正解… 緑の枠が正解です。")+(q.exp?`<div class="exp-box">${q.exp}</div>`:"");
+}
+
+function toggle(orig,b,q){
+  if(selected.has(orig)){selected.delete(orig);b.classList.remove("selected");}
+  else{selected.add(orig);b.classList.add("selected");}
+  $("btnCheck").disabled=selected.size!==correctIdx(q).length;
+}
+
+function answer(chosen){
+  const q=QUESTIONS[order[pos]],ans=correctIdx(q);
+  const ok=chosen.size===ans.length&&ans.every(i=>chosen.has(i));
+  state[pos]={chosen:[...chosen],ok};
+  render();
+  $("btnNext").focus({preventScroll:true});
+}
+
+function toQuizTop(){$("quiz").scrollIntoView({behavior:"smooth",block:"start"});}
+function go(i){pos=i;render();toQuizTop();}
+function next(){
+  if(pos<order.length-1){go(pos+1);return;}
+  endCheck();
+}
+function skip(){
+  const un=state.map((s,i)=>s?-1:i).filter(i=>i>=0&&i!==pos);
+  const after=un.find(i=>i>pos);
+  if(pos<order.length-1)go(pos+1);
+  else if(un.length)go(after!==undefined?after:un[0]);
+  else endCheck();
+}
+function endCheck(){
+  const un=state.filter(s=>!s).length;
+  if(!un){finish();return;}
+  $("noticeText").textContent=`未回答の問題が ${un} 問あります。未回答の問題は「不正解」として集計されます。`;
+  $("notice").hidden=false;$("navActions").hidden=true;
+  $("notice").scrollIntoView({behavior:"smooth",block:"center"});
+}
+
+function finish(){
+  $("quiz").hidden=true;$("result").hidden=false;
+  const correct=nCorrect();
+  $("scoreBig").innerHTML=`${correct}<small> / ${order.length}問</small>`;
+  const full=order.length===QUESTIONS.length,pm=$("passMsg");
+  if(full){
+    const pass=correct/order.length*100>=PASS;
+    pm.className="passmsg "+(pass?"ok":"ng");
+    pm.textContent=pass?`目標（${PASS}%）達成！`:`目標（${PASS}%）まであと少し。解説を見直してもう一度挑戦しよう。`;
+    const b=getBest();
+    if(!b||correct>b.score){const d=new Date();setBest({score:correct,total:order.length,date:`${d.getMonth()+1}/${d.getDate()}`});}
+  }else pm.textContent="";
+  showBest($("bestResult"));
+  $("btnRetryWrong").hidden=!state.some(s=>!s||!s.ok);
+  const rv=$("review");rv.innerHTML="";
+  order.forEach((qi,n)=>{
+    const q=QUESTIONS[qi],st=state[n],ans=correctIdx(q);
+    const fmt=list=>list.map(i=>choiceHTML(q.choices[i])).join("、");
+    const tag=!st?`<span class="tag na">未回答</span>`:`<span class="tag ${st.ok?"ok":"ng"}">${st.ok?"正解":"不正解"}</span>`;
+    const line=!st?`正解：${fmt(ans)}`:st.ok?`正解：${fmt(ans)}`:`あなたの解答：${fmt(st.chosen)} ／ 正解：${fmt(ans)}`;
+    let fbs=q.exp?`<p class="exp">${q.exp}</p>`:"";
+    q.choices.forEach((c,i)=>{ if(c.fb&&!c.ok&&st&&st.chosen.includes(i)) fbs+=`<p class="exp">✗ ${c.fb}</p>`;
+                               if(c.fb&&c.ok&&!q.exp) fbs+=`<p class="exp">✓ ${c.fb}</p>`; });
+    const div=document.createElement("div");div.className="review-item";
+    div.innerHTML=`<div class="rq">${tag}問題${n+1}　${q.q}</div><div class="ans">${line}</div>${fbs}`;
+    rv.appendChild(div);
+  });
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+$("btnStart").addEventListener("click",()=>start());
+$("btnCheck").addEventListener("click",()=>answer(selected));
+$("btnNext").addEventListener("click",next);
+$("btnPrev").addEventListener("click",()=>{if(pos>0)go(pos-1);});
+$("btnSkip").addEventListener("click",skip);
+$("btnToUnanswered").addEventListener("click",()=>go(state.findIndex(s=>!s)));
+$("btnFinishAnyway").addEventListener("click",finish);
+$("btnRetryAll").addEventListener("click",()=>start());
+$("btnRetryWrong").addEventListener("click",()=>start(order.filter((qi,i)=>!state[i]||!state[i].ok)));
+document.addEventListener("click",e=>{
+  if(e.target.classList.contains("qimg")){$("zoomImg").src=e.target.src;$("zoom").classList.add("show");}
+  else if(e.target.closest("#zoom"))$("zoom").classList.remove("show");
+});
+showBest($("bestStart"));
+if(NEXT_SET){const a=$("btnNextSet");a.href=NEXT_SET.url;a.textContent=`次の問題に進む（${NEXT_SET.label}）→`;a.hidden=false;}
+</script>
+</body>
+</html>

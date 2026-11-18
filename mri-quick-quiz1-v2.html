@@ -47,6 +47,11 @@ a:focus-visible,button:focus-visible{outline:3px solid #2457a7;outline-offset:4p
 .choices.tf .choice .body{font-size:1.05rem}
 .choices.tf .cfb{text-align:left;font-weight:400}
 .badge{display:inline-block;font-size:.75rem;font-weight:700;color:#2457a7;background:#eef4fb;border:1px solid #c9d9ee;border-radius:99px;padding:0 10px;margin-bottom:4px}
+.qtext .stem{font-weight:400;font-size:.9rem;color:#526276;background:#f6f8fb;border-radius:8px;padding:8px 12px;margin:2px 0 10px;line-height:1.65}
+.badge.judge-b{color:#1f7a4f;background:#e8f7ef;border-color:#bfe3cf}
+.qtext .judge{margin-top:2px}
+.rq .stem{font-weight:400;color:#627187;font-size:.88rem}
+.rq .badge{margin:2px 4px 2px 0}
 .qtag{font-weight:400;color:#627187;font-size:.8rem;margin-left:.5em}
 .dots.many .dot{width:28px;height:28px;font-size:.75rem}
 .choice.selected{border-color:#2457a7;background:#eef4fb}
@@ -488,7 +493,7 @@ const QUESTIONS = [
 ];
 const PASS = 80;
 /* 結果画面の「次の問題に進む」ボタンのリンク先（不要なら null） */
-const NEXT_SET = null;
+const NEXT_SET = {"url": "./mri-quick-quiz2.html", "label": "1問1答 2"};
 const STORAGE_KEY = "quiz-mriquickquiz1v2-best";
 
 /* ===== 動作部分（通常は編集不要） ===== */
