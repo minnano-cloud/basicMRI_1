@@ -1,0 +1,624 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>X線管3｜X線機器学 国試対策</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f4f6fa;color:#203047;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;line-height:1.7}
+header{background:linear-gradient(135deg,#173b72,#2d67b2);padding:30px 20px;color:#fff}
+.wrap{width:min(1000px,calc(100% - 32px));margin:auto}
+header .wrap{width:min(1000px,100%)}
+h1{margin:5px 0;font-size:clamp(1.6rem,4vw,2.2rem)}
+header p{margin:0;font-size:.9rem}
+main{padding:24px 0 40px}
+.back{display:inline-block;color:#2457a7;font-weight:700;text-decoration:none;margin:0 18px 16px 0}
+.back:hover{text-decoration:underline}
+a:focus-visible,button:focus-visible{outline:3px solid #2457a7;outline-offset:4px}
+.instruction{margin:0 0 18px;color:#526276;font-size:.95rem}
+.panel{background:#fff;border:1px solid #dfe7f0;border-radius:16px;padding:24px;margin-bottom:16px}
+.panel h2{font-size:1.1rem;margin:0 0 8px}
+.scope{margin:0 0 6px;font-weight:700}
+.muted{color:#627187;font-size:.9rem}
+.options{display:flex;gap:18px;flex-wrap:wrap;font-size:.92rem;color:#526276;margin:14px 0 4px}
+.options label{display:flex;align-items:center;gap:6px;cursor:pointer}
+.progress{display:flex;align-items:center;gap:12px;margin-bottom:16px;font-size:.88rem;color:#627187}
+.bar{flex:1;height:8px;background:#e4ebf3;border-radius:99px;overflow:hidden}
+.bar>span{display:block;height:100%;background:#2457a7;width:0;transition:width .3s}
+.qnum{font-weight:700;color:#2457a7;font-size:.9rem}
+.qtext{font-size:1.1rem;font-weight:700;margin:.2em 0 .9em}
+.multi-note{display:inline-block;font-size:.8rem;font-weight:700;color:#8a5a00;background:#fff4dc;border-radius:99px;padding:1px 10px;margin-bottom:10px}
+.qimg{display:block;max-width:min(100%,420px);height:auto;margin:0 auto 16px;border-radius:10px;cursor:zoom-in}
+.choices{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.choices.imgs{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+.choice{width:100%;text-align:left;display:flex;gap:12px;align-items:flex-start;background:#fff;border:2px solid #dfe7f0;border-radius:12px;padding:12px 14px;font:inherit;color:inherit;cursor:pointer;transition:border-color .15s,background .15s;margin:0}
+.choice:hover:not(:disabled){border-color:#2457a7;background:#eef4fb}
+.choice:disabled{cursor:default}
+.choice .no{flex:none;width:26px;height:26px;border-radius:50%;background:#eef4fb;color:#2457a7;display:grid;place-items:center;font-weight:700;font-size:.85rem;margin-top:1px}
+.choice .body{flex:1;min-width:0}
+.choice img{max-width:100%;height:auto;display:block}
+.choices.imgs .choice{flex-direction:column;align-items:center}
+.choice.selected{border-color:#2457a7;background:#eef4fb}
+.choice.selected .no{background:#2457a7;color:#fff}
+.choice.correct{border-color:#1f9d63;background:#e8f7ef}
+.choice.correct .no{background:#1f9d63;color:#fff}
+.choice.wrong{border-color:#c94040;background:#fdeeee}
+.choice.wrong .no{background:#c94040;color:#fff}
+.choice.missed{border-style:dashed;border-color:#1f9d63}
+.cfb{display:none;margin-top:6px;font-size:.88rem;color:#526276;border-top:1px dashed #d5dee8;padding-top:6px}
+.answered .cfb{display:block}
+.dots{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 16px;padding:0;list-style:none}
+.dot{width:32px;height:32px;border-radius:50%;border:2px solid #dfe7f0;background:#fff;color:#526276;font:inherit;font-size:.8rem;font-weight:700;cursor:pointer;padding:0;margin:0}
+.dot.ok{background:#1f9d63;border-color:#1f9d63;color:#fff}
+.dot.ng{background:#c94040;border-color:#c94040;color:#fff}
+.dot.cur{outline:3px solid #2457a7;outline-offset:2px}
+.exp-box{font-weight:400;color:#203047;margin-top:6px;line-height:1.75}
+.notice{margin-top:16px;border-radius:12px;padding:14px 16px;background:#fff4dc;color:#6b4a00;font-weight:700}
+.notice[hidden]{display:none}
+.actions .left{margin-right:auto}
+.tag.na{background:#eef1f5;color:#627187}
+.verdict{display:none;margin-top:16px;border-radius:12px;padding:12px 16px;font-weight:700}
+.verdict.show{display:block}
+.verdict.ok{background:#e8f7ef;color:#1f7a4f}
+.verdict.ng{background:#fdeeee;color:#a12f2f}
+.actions{display:flex;gap:10px;justify-content:flex-end;margin-top:16px;flex-wrap:wrap}
+.btn{border:1px solid #2457a7;background:#2457a7;color:#fff;border-radius:8px;padding:10px 20px;font:inherit;font-weight:700;cursor:pointer}
+.btn:hover{filter:brightness(1.1)}
+.btn:disabled{opacity:.4;cursor:default;filter:none}
+.btn.ghost{background:#fff;color:#2457a7}
+.btn[hidden],.actions[hidden]{display:none}
+.next-set{background:#1f9d63;border-color:#1f9d63;text-decoration:none;display:inline-block}
+.score{font-size:2.6rem;font-weight:800;color:#2457a7;margin:.1em 0;line-height:1.3}
+.score small{font-size:1rem;color:#627187;font-weight:600}
+.passmsg{font-weight:700}
+.passmsg.ok{color:#1f7a4f}.passmsg.ng{color:#a12f2f}
+.review-item{border-top:1px solid #e4ebf3;padding:14px 0}
+.review-item:first-of-type{border-top:none}
+.rq{font-weight:700}
+.tag{display:inline-block;font-size:.75rem;font-weight:700;padding:1px 8px;border-radius:99px;margin-right:6px}
+.tag.ok{background:#e8f7ef;color:#1f7a4f}.tag.ng{background:#fdeeee;color:#a12f2f}
+.ans{font-size:.92rem;margin:.3em 0}
+.ans img{height:2.2em;width:auto;vertical-align:middle;margin:0 2px}
+.exp{font-size:.88rem;color:#526276;margin:.2em 0 0;padding-left:1em}
+.zoom{position:fixed;inset:0;background:rgba(10,20,35,.85);display:none;align-items:center;justify-content:center;padding:16px;z-index:10;cursor:zoom-out}
+.zoom.show{display:flex}
+.zoom img{max-width:100%;max-height:100%;border-radius:8px}
+footer{text-align:center;color:#627187;font-size:.8rem;padding:0 16px 24px}
+@media(max-width:600px){.panel{padding:16px}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><p>X線機器学 国試対策 ／ X線管・高電圧装置</p><h1>X線管3</h1><p>全10問</p></div></header>
+<main class="wrap">
+  <nav aria-label="戻る"><a class="back" href="./xray-equipment.html">← X線機器学の問題集一覧へ</a><a class="back" href="./portal.html">学習ポータルにもどる</a></nav>
+  <p class="instruction">各問題に解答して正誤と解説を確認しましょう。正解だと思う選択肢をタップまたはクリックするとすぐに解答が表示されます。「スキップ」で後回しにしたり、上の番号から好きな問題に移動したりできます。最後に合計得点を確認でき、何度でも取り組めます。</p>
+
+  <section class="panel" id="start">
+    <p class="scope">許容負荷・陰極構造・可動絞り・公称最大電力</p>
+    <p class="muted">全10問 ／ 目標：100%以上の正解</p>
+    
+    <div class="options">
+      <label><input type="checkbox" id="optShuffleQ" checked> 問題の順番をシャッフル</label>
+      <label><input type="checkbox" id="optShuffleC" checked> 選択肢をシャッフル</label>
+    </div>
+    <p class="muted" id="bestStart"></p>
+    <div class="actions"><button class="btn" id="btnStart">開始</button></div>
+  </section>
+
+  <section class="panel" id="quiz" hidden>
+    <div class="progress"><span id="progText"></span><div class="bar"><span id="progBar"></span></div><span id="scoreNow"></span></div>
+    <ul class="dots" id="dots" aria-label="問題一覧（押すとその問題へ移動）"></ul>
+    <div class="qnum" id="qnum"></div>
+    <div class="qtext" id="qtext"></div>
+    <div id="multiNote"></div>
+    <div id="qimgWrap"></div>
+    <ul class="choices" id="choices"></ul>
+    <div class="verdict" id="verdict" role="status" aria-live="polite"></div>
+    <div class="notice" id="notice" hidden>
+      <div id="noticeText"></div>
+      <div class="actions">
+        <button class="btn ghost" id="btnToUnanswered">未回答の問題へ</button>
+        <button class="btn" id="btnFinishAnyway">このまま結果を表示</button>
+      </div>
+    </div>
+    <div class="actions" id="navActions">
+      <button class="btn ghost left" id="btnPrev">← 前へ</button>
+      <button class="btn ghost" id="btnSkip" hidden>スキップ</button>
+      <button class="btn" id="btnCheck" hidden disabled>解答</button>
+      <button class="btn" id="btnNext" hidden>次へ →</button>
+    </div>
+  </section>
+
+  <section id="result" hidden>
+    <div class="panel">
+      <h2>結果</h2>
+      <div class="score" id="scoreBig"></div>
+      <div class="passmsg" id="passMsg"></div>
+      <div class="muted" id="bestResult"></div>
+      <div class="actions">
+        <button class="btn ghost" id="btnRetryWrong">間違えた問題だけ解き直す</button>
+        <button class="btn" id="btnRetryAll">もう一度挑戦</button>
+        <a class="btn next-set" id="btnNextSet" hidden></a>
+      </div>
+    </div>
+    <div class="panel"><h2>ふりかえり</h2><div id="review"></div></div>
+  </section>
+</main>
+<footer>放射線技術学 学習ポータル</footer>
+<div class="zoom" id="zoom"><img alt="拡大画像" id="zoomImg"></div>
+
+<script>
+/* ===== 問題データ =====
+   q: 問題文 / img: 問題の画像(任意)
+   exp: 解答後に表示するまとめの解説(任意)
+   choices: t=選択肢の文, img=選択肢の画像, ok=正解ならtrue, fb=選択肢ごとの解説(任意)
+   正解(ok:true)を2つ以上にすると「2つ選べ」形式になります。 */
+const QUESTIONS = [
+  {
+    "q": "X線管装置で正しいのはどれか。",
+    "choices": [
+      {
+        "t": "長時間許容負荷は焦点面の温度で制限される。",
+        "ok": false,
+        "fb": "長時間許容負荷：陽極全体の温度で制限される"
+      },
+      {
+        "t": "短時間許容負荷はX線管装置最大冷却率で定まる。",
+        "ok": false,
+        "fb": "長時間（許容）負荷：陽極全体の温度で制限→最大冷却率で決まる<br><br><a href=\"https://minnano-cloud.github.io/basicMRI_1/images/anode-heating-cooling.png\" target=\"_blank\" rel=\"noopener noreferrer\">陽極加熱・冷却曲線を見る</a>"
+      },
+      {
+        "t": "短時間許容負荷は管電圧リプル百分率に影響されない。",
+        "ok": false,
+        "fb": "短時間許容負荷：管電圧リプルが小さいほど大きくできる"
+      },
+      {
+        "t": "陽極回転数を3倍にすると短時間許容負荷は3倍になる。",
+        "ok": false,
+        "fb": "陽極回転数と焦点軌道直径（半径）は仮に2倍となったら√2倍になるため、1.4倍となる。よって3倍にした場合は約1.7倍になる。"
+      },
+      {
+        "t": "同一の実効焦点ではターゲット角度が小さいほど短時間許容負荷は大きい。",
+        "ok": true,
+        "fb": "実効焦点サイズが同じ場合、ターゲット角が小さいほど実焦点面を大きくできる → 短時間許容負荷を大きくできる"
+      }
+    ],
+    "exp": "実効焦点が同じなら、ターゲット角度が小さいほど実焦点面を大きくでき、短時間許容負荷は大きくなる。ほかの選択肢：長時間許容負荷は陽極全体の温度で制限され、最大冷却率で定まる（短時間ではない）／リプル百分率が小さいほど短時間許容負荷は大きい／陽極回転数を3倍にしても √3 ≒ 1.7倍。"
+  },
+  {
+    "q": "回転陽極Ｘ線管で、0.1秒以下の負荷において、陽極回転数を2倍、焦点軌道直径を1.5倍にすると短時間許容負荷は約何倍か。",
+    "choices": [
+      {
+        "t": "１.７",
+        "ok": true,
+        "fb": "√2 ×1.5 = √3 = 1.7倍<br><br><a href=\"https://minnano-cloud.github.io/basicMRI_1/images/specific-loading-formula.png\" target=\"_blank\" rel=\"noopener noreferrer\">比負荷の式を見る</a>"
+      },
+      {
+        "t": "２.０",
+        "ok": false
+      },
+      {
+        "t": "２.３",
+        "ok": false
+      },
+      {
+        "t": "３.０",
+        "ok": false
+      },
+      {
+        "t": "４.０",
+        "ok": false
+      }
+    ],
+    "exp": "0.1秒以下の短時間許容負荷は √（回転数の倍率 × 焦点軌道直径の倍率）倍。√（2 × 1.5）＝ √3 ≒ 1.7倍。"
+  },
+  {
+    "q": "Ｘ線管について正しいのはどれか。",
+    "choices": [
+      {
+        "t": "管電流は電極間距離の２乗に比例する。",
+        "ok": false,
+        "fb": "<strong>管電流</strong>：電極間距離の2乗に<strong>反比例</strong>する"
+      },
+      {
+        "t": "Ｘ線強度は管電圧の３/２乗に比例する。",
+        "ok": false,
+        "fb": "X線強度：管電圧の2乗に比例 × 管電流に比例 × 原子番号に比例"
+      },
+      {
+        "t": "放射強度分布はターゲット角度に影響される。",
+        "ok": true,
+        "fb": "<a href=\"https://minnano-cloud.github.io/basicMRI_1/images/target-angle.png\" target=\"_blank\" rel=\"noopener noreferrer\">ターゲット角度と照射野の図を見る</a>"
+      },
+      {
+        "t": "短時間許容負荷は陽極全体の温度によって制限される。",
+        "ok": false
+      },
+      {
+        "t": "実効焦点はターゲットの電子衝撃面の焦点である。",
+        "ok": false,
+        "fb": "ターゲットの電子衝撃面 → 実焦点"
+      }
+    ],
+    "exp": "ターゲット角度が小さいほどヒール効果が強く出て、放射強度分布が偏る。ほかの選択肢：管電流は電極間距離の2乗に反比例／X線強度は管電圧の2乗に比例（3/2乗は空間電荷電流と管電圧の関係）／短時間許容負荷は実焦点面の温度で制限／電子が当たる面の焦点は実焦点（実効焦点は実焦点を基準面に投影したもの）。"
+  },
+  {
+    "q": "Ｘ線管について正しいのはどれか。２つ選べ。",
+    "choices": [
+      {
+        "t": "Ｘ線管電流は電極間距離の√2乗に反比例する。",
+        "ok": false,
+        "fb": "管電流は電極間距離の2乗に反比例"
+      },
+      {
+        "t": "Ｘ線放射強度分布はターゲットの角度によって異なる。",
+        "ok": true,
+        "fb": "<a href=\"https://minnano-cloud.github.io/basicMRI_1/images/target-angle.png\" target=\"_blank\" rel=\"noopener noreferrer\">ターゲット角度と放射強度分布の図を見る</a>"
+      },
+      {
+        "t": "焦点外Ｘ線の線質は焦点近傍ほど硬質となる。",
+        "ok": false,
+        "fb": "焦点外X線：実焦点面から離れるほどエネルギーは高い（硬質）"
+      },
+      {
+        "t": "短時間許容負荷は管電圧リプル百分率によって異なる。",
+        "ok": true,
+        "fb": "短時間許容負荷：管電圧リプル百分率が小さいほど大きくできる"
+      },
+      {
+        "t": "実効焦点の変化はＸ線管電圧が高くＸ線管電流が小さいほど大きい。",
+        "ok": false,
+        "fb": "ブルーミング効果の説明：低管電圧・大管電流ほど顕著となる"
+      }
+    ],
+    "exp": "X線放射強度分布はターゲット角度によって変わり、短時間許容負荷は管電圧リプル百分率が小さいほど大きくなる。管電流は電極間距離の「2乗」に反比例、焦点外X線は焦点から離れるほど硬い、実効焦点の変化（ブルーミング）は低管電圧・大管電流ほど大きい。"
+  },
+  {
+    "q": "焦点外X線で正しいのはどれか。",
+    "choices": [
+      {
+        "t": "焦点近傍で最も多く発生する。",
+        "ok": true,
+        "fb": "正しい"
+      },
+      {
+        "t": "線質は焦点近傍ほど硬質となる。",
+        "ok": false,
+        "fb": "焦点から離れるほどエネルギーは増大する（硬質となる）"
+      },
+      {
+        "t": "X線画像のコントラストは増加する。",
+        "ok": false,
+        "fb": "何も対策をしないと画像コントラストを低下させる。"
+      },
+      {
+        "t": "集束電極で集束されなかった電子のために生じる。",
+        "ok": false,
+        "fb": "ターゲット内で発生した二次電子が焦点以外の陽極に当たり焦点外X線を発生させる。陽極全体から発生しうる。実焦点近傍の方が発生量が多いが、エネルギーは焦点から離れたところからの焦点外X線の方が高い。"
+      },
+      {
+        "t": "発生する量は固定陽極の方が回転陽極よりも多い。",
+        "ok": false,
+        "fb": "発生量　回転陽極 &gt; 固定陽極"
+      }
+    ],
+    "exp": "焦点外X線の発生量は焦点の近くが最も多く、エネルギー（線質の硬さ）は焦点から離れるほど高くなる。対策をしないと画像のコントラストを下げる。原因は焦点で生じた二次電子で、集束されなかった電子ではない。発生量は回転陽極のほうが多い。"
+  },
+  {
+    "q": "Ｘ線管について正しいのはどれか。2つ選べ。",
+    "choices": [
+      {
+        "t": "集束電極の外側にフィラメントがある。",
+        "ok": false,
+        "fb": "【陰極の構造】集束電極（溝）の内側にフィラメントがある。"
+      },
+      {
+        "t": "集束電極によって焦点外Ｘ線が発生する。",
+        "ok": false,
+        "fb": "集束電極は熱電子を真っ直ぐに実焦点に到達させる役割がある"
+      },
+      {
+        "t": "集束電極によって正焦点と副焦点とができる。",
+        "ok": true,
+        "fb": "<a href=\"https://minnano-cloud.github.io/basicMRI_1/images/main-secondary-focus.png\" target=\"_blank\" rel=\"noopener noreferrer\">正焦点・副焦点の図を見る</a>"
+      },
+      {
+        "t": "電子密度は正焦点では大きく、副焦点では小さい。",
+        "ok": true,
+        "fb": "フィラメントの前面から出る熱電子が正焦点を形成する。フィラメントは長さがあるため側方より前方から出る熱電子の方が多い。<br><br><a href=\"https://minnano-cloud.github.io/basicMRI_1/images/main-secondary-focus.png\" target=\"_blank\" rel=\"noopener noreferrer\">正焦点・副焦点の図を見る</a>"
+      },
+      {
+        "t": "低管電圧で管電流が大きいと焦点は小さくなる。",
+        "ok": false,
+        "fb": "誤り。ブルーミング効果により、低管電圧・大管電流ほど焦点は大きくなる。"
+      }
+    ],
+    "exp": "フィラメントは集束電極（溝）の内側に置かれ、集束電極の形によって正焦点と副焦点ができる。フィラメントの前面から出る電子が正焦点をつくるため、電子密度は正焦点で大きく副焦点で小さい。焦点外X線の原因は集束電極ではなく二次電子。低管電圧・大管電流では焦点は大きくなる（ブルーミング効果）。"
+  },
+  {
+    "q": "X線管装置の用語で誤っているのはどれか。",
+    "choices": [
+      {
+        "t": "実効焦点とは基準面への垂直投影したものをいう。",
+        "ok": false,
+        "fb": "正しい定義<br><br><a href=\"https://minnano-cloud.github.io/basicMRI_1/images/actual-effective-focus.png\">実焦点と実効焦点の図を見る</a>"
+      },
+      {
+        "t": "X線管入力とは陽極に加えられる電力をいう。",
+        "ok": false,
+        "fb": "X線管に供給される電力なので正しい。"
+      },
+      {
+        "t": "ヒートユニットとはX線管の入力を表す特別な単位をいう。",
+        "ok": false,
+        "fb": "【ヒートユニット】X線管の入力を表す特別な単位（単相2ピークが基準）"
+      },
+      {
+        "t": "固有ろ過とは取り外しできない物質による線質等価ろ過をいう。",
+        "ok": false,
+        "fb": "ろ過：低エネルギーX線を取り除くこと（表面被ばくにつながるため）<br><br>取り外しのできない部分（X線管自体）のろ過＝<strong>固有ろ過</strong><br>付加フィルタ＋照射野限定器によるろ過＝<strong>付加ろ過</strong><br><br><strong>固有ろ過 + 付加ろ過 = 総ろ過</strong>"
+      },
+      {
+        "t": "フィラメント特性とは管電流とフィラメント電流との関係をいう。",
+        "ok": true,
+        "fb": "【フィラメント特性】フィラメント電圧とフィラメント電流の関係のこと"
+      }
+    ],
+    "exp": "フィラメント特性は、フィラメント電圧とフィラメント電流の関係。管電流とフィラメント電流の関係はエミッション特性（管電流特性）。ほかは正しい定義：実効焦点は実焦点の基準面への垂直投影／X線管入力は陽極に加えられる電力／ヒートユニットはX線管入力を表す特別な単位／固有ろ過は取り外せない物質によるろ過。"
+  },
+  {
+    "q": "Ｘ線可動絞りについて誤っているのはどれか。",
+    "choices": [
+      {
+        "t": "奥羽根は焦点外Ｘ線を効率的に低減する。",
+        "ok": false,
+        "fb": "正しい。<br><br><a href=\"https://minnano-cloud.github.io/basicMRI_1/images/xray-collimator.png\" target=\"_blank\" rel=\"noopener noreferrer\">可動絞りの図を見る</a>"
+      },
+      {
+        "t": "上羽根は利用線錘を必要最小限のＸ線照射野に設定する。",
+        "ok": false,
+        "fb": "正しい。<br><br><a href=\"https://minnano-cloud.github.io/basicMRI_1/images/xray-collimator.png\" target=\"_blank\" rel=\"noopener noreferrer\">可動絞りの図を見る</a>"
+      },
+      {
+        "t": "光照射野の平均照度はＳＩＤ１００cmで１００lx以上である。",
+        "ok": false,
+        "fb": "正しい。<br><br><a href=\"https://minnano-cloud.github.io/basicMRI_1/images/collimator-performance.png\" target=\"_blank\" rel=\"noopener noreferrer\">可動絞りの性能一覧を見る</a>"
+      },
+      {
+        "t": "固有ろ過はアルミニウム当量の最小の公称値を可動絞りに表示する。",
+        "ok": false,
+        "fb": "正しい。<br><br>一般撮影用：2.5mmAl当量以上<br>歯科用（70kV以下）：1.5mmAl当量以上<br>マンモグラフィ：0.5mmAl当量以上 か 0.03mmMo当量以上"
+      },
+      {
+        "t": "Ｘ線と光照射野とのずれは焦点－光照射野間距離の４％以下にする。",
+        "ok": true,
+        "fb": "2辺の合計がSIDの2%以下としなければならない。"
+      }
+    ],
+    "exp": "X線照射野と光照射野のずれは、辺のずれの合計がSID（焦点−受像面間距離）の2%以下と決められている。4%は誤り。ほかは正しい：奥羽根は焦点外X線を減らす／上羽根で照射野を必要最小限にする／光照射野の平均照度はSID 100 cmで100 lx以上／固有ろ過のアルミニウム当量を可動絞りに表示する。"
+  },
+  {
+    "q": "X線源装置で誤っているのはどれか。2つ選べ。",
+    "choices": [
+      {
+        "t": "ターゲット角度はヒール効果に影響する。",
+        "ok": false,
+        "fb": "ターゲット角が小さい場合にヒール効果の影響が生じる。"
+      },
+      {
+        "t": "X線管焦点の大きさは陰極の電極構造で決定される。",
+        "ok": false,
+        "fb": "正しい。集束電極内にフィラメントがどのように収まっているかで変わる。"
+      },
+      {
+        "t": "X線用可動絞りの奥羽根は焦点外X線の低減に有効である。",
+        "ok": false,
+        "fb": "正しい。<br>ーーーX線管側ーーー<br>奥羽根：焦点外X線の除去<br>下羽根：散乱線、漏れX線の除去<br>上羽根：照射野の決定<br>ーーー患者側ーーー"
+      },
+      {
+        "t": "X線用可動絞りのミラーのX線吸収は0.05mmAl当量以下である。",
+        "ok": true,
+        "fb": "ミラーによる吸収（ろ過）：0.8〜1.5mmAl当量程度とされる"
+      },
+      {
+        "t": "マンモグラフィ用X線管の電極間距離は一般用よりも長い。",
+        "ok": true,
+        "fb": "マンモグラフィでは低管電圧を使用するため空間電荷が発生しやすい。そのため電極間距離は短く設定されている。<br><br>一般撮影用：17〜18mm<br>マンモ用：10〜13mm"
+      }
+    ],
+    "exp": "マンモグラフィ用X線管は低管電圧で使い空間電荷が生じやすいため、電極間距離は一般用より短い。可動絞りのミラーにもX線の吸収（ろ過）があり、0.05 mmAl当量以下というのは誤り。ほかは正しい：ターゲット角度はヒール効果に影響／焦点の大きさは陰極の電極構造で決まる／奥羽根は焦点外X線の低減に有効。"
+  },
+  {
+    "q": "管電圧100kV、管電流800mA、撮影時間0.1s、管電圧リプル百分率30%のインバータ式X線高電圧装置がある。この装置の公称最大電力[kW]はどれか。",
+    "choices": [
+      {
+        "t": "46.5",
+        "ok": false
+      },
+      {
+        "t": "59.2",
+        "ok": true,
+        "fb": "公称最大電力＝管電圧×管電流×係数f  ←通常kWで表示<br>f=1.0 リプル10%以下<br>f=0.95 リプル10%超〜25%以下<br>f=0.74 リプル25%超<br><br>よって<br>100k × 800m × 0.74 = 59.2kW"
+      },
+      {
+        "t": "65.7",
+        "ok": false
+      },
+      {
+        "t": "70.2",
+        "ok": false
+      },
+      {
+        "t": "89.7",
+        "ok": false
+      }
+    ],
+    "exp": "公称最大電力 ＝ 管電圧 × 管電流 × 係数f。係数fはリプル百分率で決まり、10%以下で1.0、10%超〜25%以下で0.95、25%超で0.74。リプル30%なので f＝0.74、100 kV × 800 mA × 0.74 ＝ 59.2 kW。撮影時間0.1 sは計算に使わない。"
+  }
+];
+const PASS = 100;
+/* 結果画面の「次の問題に進む」ボタンのリンク先（不要なら null） */
+const NEXT_SET = {"url": "./xray-highvoltage1-v2.html", "label": "高電圧装置1"};
+const STORAGE_KEY = "quiz-xraytube3v2-best";
+
+/* ===== 動作部分（通常は編集不要） ===== */
+const $ = id => document.getElementById(id);
+let order=[], pos=0, state=[], corder=[], selected=new Set();
+
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function getBest(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY));}catch(e){return null;}}
+function setBest(v){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(v));}catch(e){}}
+function showBest(el){const b=getBest();el.textContent=b?`これまでの最高記録：${b.score} / ${b.total}問（${b.date}）`:"";}
+function choiceHTML(c){return c.img?`<img src="${c.img}" alt="${c.t||"選択肢の画像"}">`:(c.t||"");}
+function correctIdx(q){return q.choices.map((c,i)=>c.ok?i:-1).filter(i=>i>=0);}
+function nCorrect(){return state.filter(s=>s&&s.ok).length;}
+function nAnswered(){return state.filter(Boolean).length;}
+
+function start(list){
+  const base=list||QUESTIONS.map((_,i)=>i);
+  order=$("optShuffleQ").checked?shuffle(base):base;
+  const sc=$("optShuffleC").checked;
+  corder=order.map(qi=>{const ix=QUESTIONS[qi].choices.map((_,i)=>i);return sc?shuffle(ix):ix;});
+  state=order.map(()=>null);pos=0;
+  $("start").hidden=true;$("result").hidden=true;$("quiz").hidden=false;
+  render();window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function renderDots(){
+  const ul=$("dots");ul.innerHTML="";
+  order.forEach((_,i)=>{
+    const li=document.createElement("li"),b=document.createElement("button");
+    b.className="dot"+(state[i]?(state[i].ok?" ok":" ng"):"")+(i===pos?" cur":"");
+    b.textContent=i+1;b.title=state[i]?(state[i].ok?"正解":"不正解"):"未回答";
+    b.setAttribute("aria-label",`問題${i+1}（${b.title}）`);
+    b.addEventListener("click",()=>go(i));
+    li.appendChild(b);ul.appendChild(li);
+  });
+}
+
+function render(){
+  const q=QUESTIONS[order[pos]], st=state[pos], multi=correctIdx(q).length>1;
+  selected=new Set();
+  $("notice").hidden=true;$("navActions").hidden=false;
+  $("progText").textContent=`${pos+1} / ${order.length}`;
+  $("progBar").style.width=(nAnswered()/order.length*100)+"%";
+  $("scoreNow").textContent=`正解 ${nCorrect()}`;
+  renderDots();
+  $("qnum").textContent=`問題 ${pos+1}`;
+  $("qtext").innerHTML=q.q;
+  $("multiNote").innerHTML=multi?`<span class="multi-note">${correctIdx(q).length}つ選んでから「解答」を押してください</span>`:"";
+  $("qimgWrap").innerHTML=q.img?`<img class="qimg" src="${q.img}" alt="問題の画像（タップで拡大）">`:"";
+  const ul=$("choices");ul.innerHTML="";ul.className="choices"+(q.choices.some(c=>c.img)?" imgs":"");
+  corder[pos].forEach((orig,n)=>{
+    const c=q.choices[orig],li=document.createElement("li"),b=document.createElement("button");
+    b.className="choice";b.dataset.orig=orig;
+    b.innerHTML=`<span class="no">${n+1}</span><span class="body">${choiceHTML(c)}${c.fb?`<span class="cfb">${c.fb}</span>`:""}</span>`;
+    b.addEventListener("click",()=>multi?toggle(orig,b,q):answer(new Set([orig])));
+    li.appendChild(b);ul.appendChild(li);
+  });
+  $("verdict").className="verdict";
+  if(st)showAnswered(q,st);
+  $("btnPrev").disabled=pos===0;
+  $("btnSkip").hidden=!!st;
+  $("btnCheck").hidden=!multi||!!st;$("btnCheck").disabled=true;
+  $("btnNext").hidden=!st;
+  $("btnNext").textContent=pos===order.length-1?"結果を表示":"次へ →";
+}
+
+function showAnswered(q,st){
+  $("choices").classList.add("answered");
+  document.querySelectorAll(".choice").forEach(b=>{
+    b.disabled=true;
+    const o=Number(b.dataset.orig);
+    if(q.choices[o].ok)b.classList.add("correct",...(st.chosen.includes(o)?[]:["missed"]));
+    else if(st.chosen.includes(o))b.classList.add("wrong");
+  });
+  const v=$("verdict");
+  v.className="verdict show "+(st.ok?"ok":"ng");
+  v.innerHTML=(st.ok?"正解！":"不正解… 緑の枠が正解です。")+(q.exp?`<div class="exp-box">${q.exp}</div>`:"");
+}
+
+function toggle(orig,b,q){
+  if(selected.has(orig)){selected.delete(orig);b.classList.remove("selected");}
+  else{selected.add(orig);b.classList.add("selected");}
+  $("btnCheck").disabled=selected.size!==correctIdx(q).length;
+}
+
+function answer(chosen){
+  const q=QUESTIONS[order[pos]],ans=correctIdx(q);
+  const ok=chosen.size===ans.length&&ans.every(i=>chosen.has(i));
+  state[pos]={chosen:[...chosen],ok};
+  render();
+  $("btnNext").focus({preventScroll:true});
+}
+
+function go(i){pos=i;render();window.scrollTo({top:0,behavior:"smooth"});}
+function next(){
+  if(pos<order.length-1){go(pos+1);return;}
+  endCheck();
+}
+function skip(){
+  const un=state.map((s,i)=>s?-1:i).filter(i=>i>=0&&i!==pos);
+  const after=un.find(i=>i>pos);
+  if(pos<order.length-1)go(pos+1);
+  else if(un.length)go(after!==undefined?after:un[0]);
+  else endCheck();
+}
+function endCheck(){
+  const un=state.filter(s=>!s).length;
+  if(!un){finish();return;}
+  $("noticeText").textContent=`未回答の問題が ${un} 問あります。未回答の問題は「不正解」として集計されます。`;
+  $("notice").hidden=false;$("navActions").hidden=true;
+  $("notice").scrollIntoView({behavior:"smooth",block:"center"});
+}
+
+function finish(){
+  $("quiz").hidden=true;$("result").hidden=false;
+  const correct=nCorrect();
+  $("scoreBig").innerHTML=`${correct}<small> / ${order.length}問</small>`;
+  const full=order.length===QUESTIONS.length,pm=$("passMsg");
+  if(full){
+    const pass=correct/order.length*100>=PASS;
+    pm.className="passmsg "+(pass?"ok":"ng");
+    pm.textContent=pass?`目標（${PASS}%）達成！`:`目標（${PASS}%）まであと少し。解説を見直してもう一度挑戦しよう。`;
+    const b=getBest();
+    if(!b||correct>b.score){const d=new Date();setBest({score:correct,total:order.length,date:`${d.getMonth()+1}/${d.getDate()}`});}
+  }else pm.textContent="";
+  showBest($("bestResult"));
+  $("btnRetryWrong").hidden=!state.some(s=>!s||!s.ok);
+  const rv=$("review");rv.innerHTML="";
+  order.forEach((qi,n)=>{
+    const q=QUESTIONS[qi],st=state[n],ans=correctIdx(q);
+    const fmt=list=>list.map(i=>choiceHTML(q.choices[i])).join("、");
+    const tag=!st?`<span class="tag na">未回答</span>`:`<span class="tag ${st.ok?"ok":"ng"}">${st.ok?"正解":"不正解"}</span>`;
+    const line=!st?`正解：${fmt(ans)}`:st.ok?`正解：${fmt(ans)}`:`あなたの解答：${fmt(st.chosen)} ／ 正解：${fmt(ans)}`;
+    let fbs=q.exp?`<p class="exp">${q.exp}</p>`:"";
+    q.choices.forEach((c,i)=>{ if(c.fb&&!c.ok&&st&&st.chosen.includes(i)) fbs+=`<p class="exp">✗ ${c.fb}</p>`;
+                               if(c.fb&&c.ok&&!q.exp) fbs+=`<p class="exp">✓ ${c.fb}</p>`; });
+    const div=document.createElement("div");div.className="review-item";
+    div.innerHTML=`<div class="rq">${tag}問題${n+1}　${q.q}</div><div class="ans">${line}</div>${fbs}`;
+    rv.appendChild(div);
+  });
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+$("btnStart").addEventListener("click",()=>start());
+$("btnCheck").addEventListener("click",()=>answer(selected));
+$("btnNext").addEventListener("click",next);
+$("btnPrev").addEventListener("click",()=>{if(pos>0)go(pos-1);});
+$("btnSkip").addEventListener("click",skip);
+$("btnToUnanswered").addEventListener("click",()=>go(state.findIndex(s=>!s)));
+$("btnFinishAnyway").addEventListener("click",finish);
+$("btnRetryAll").addEventListener("click",()=>start());
+$("btnRetryWrong").addEventListener("click",()=>start(order.filter((qi,i)=>!state[i]||!state[i].ok)));
+document.addEventListener("click",e=>{
+  if(e.target.classList.contains("qimg")){$("zoomImg").src=e.target.src;$("zoom").classList.add("show");}
+  else if(e.target.closest("#zoom"))$("zoom").classList.remove("show");
+});
+showBest($("bestStart"));
+if(NEXT_SET){const a=$("btnNextSet");a.href=NEXT_SET.url;a.textContent=`次の問題に進む（${NEXT_SET.label}）→`;a.hidden=false;}
+</script>
+</body>
+</html>

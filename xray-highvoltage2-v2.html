@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>高電圧装置2｜X線機器学 国試対策</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f4f6fa;color:#203047;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;line-height:1.7}
+header{background:linear-gradient(135deg,#173b72,#2d67b2);padding:30px 20px;color:#fff}
+.wrap{width:min(1000px,calc(100% - 32px));margin:auto}
+header .wrap{width:min(1000px,100%)}
+h1{margin:5px 0;font-size:clamp(1.6rem,4vw,2.2rem)}
+header p{margin:0;font-size:.9rem}
+main{padding:24px 0 40px}
+.back{display:inline-block;color:#2457a7;font-weight:700;text-decoration:none;margin:0 18px 16px 0}
+.back:hover{text-decoration:underline}
+a:focus-visible,button:focus-visible{outline:3px solid #2457a7;outline-offset:4px}
+.instruction{margin:0 0 18px;color:#526276;font-size:.95rem}
+.panel{background:#fff;border:1px solid #dfe7f0;border-radius:16px;padding:24px;margin-bottom:16px}
+.panel h2{font-size:1.1rem;margin:0 0 8px}
+.scope{margin:0 0 6px;font-weight:700}
+.muted{color:#627187;font-size:.9rem}
+.options{display:flex;gap:18px;flex-wrap:wrap;font-size:.92rem;color:#526276;margin:14px 0 4px}
+.options label{display:flex;align-items:center;gap:6px;cursor:pointer}
+.progress{display:flex;align-items:center;gap:12px;margin-bottom:16px;font-size:.88rem;color:#627187}
+.bar{flex:1;height:8px;background:#e4ebf3;border-radius:99px;overflow:hidden}
+.bar>span{display:block;height:100%;background:#2457a7;width:0;transition:width .3s}
+.qnum{font-weight:700;color:#2457a7;font-size:.9rem}
+.qtext{font-size:1.1rem;font-weight:700;margin:.2em 0 .9em}
+.multi-note{display:inline-block;font-size:.8rem;font-weight:700;color:#8a5a00;background:#fff4dc;border-radius:99px;padding:1px 10px;margin-bottom:10px}
+.qimg{display:block;max-width:min(100%,420px);height:auto;margin:0 auto 16px;border-radius:10px;cursor:zoom-in}
+.choices{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.choices.imgs{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+.choice{width:100%;text-align:left;display:flex;gap:12px;align-items:flex-start;background:#fff;border:2px solid #dfe7f0;border-radius:12px;padding:12px 14px;font:inherit;color:inherit;cursor:pointer;transition:border-color .15s,background .15s;margin:0}
+.choice:hover:not(:disabled){border-color:#2457a7;background:#eef4fb}
+.choice:disabled{cursor:default}
+.choice .no{flex:none;width:26px;height:26px;border-radius:50%;background:#eef4fb;color:#2457a7;display:grid;place-items:center;font-weight:700;font-size:.85rem;margin-top:1px}
+.choice .body{flex:1;min-width:0}
+.choice img{max-width:100%;height:auto;display:block}
+.choices.imgs .choice{flex-direction:column;align-items:center}
+.choice.selected{border-color:#2457a7;background:#eef4fb}
+.choice.selected .no{background:#2457a7;color:#fff}
+.choice.correct{border-color:#1f9d63;background:#e8f7ef}
+.choice.correct .no{background:#1f9d63;color:#fff}
+.choice.wrong{border-color:#c94040;background:#fdeeee}
+.choice.wrong .no{background:#c94040;color:#fff}
+.choice.missed{border-style:dashed;border-color:#1f9d63}
+.cfb{display:none;margin-top:6px;font-size:.88rem;color:#526276;border-top:1px dashed #d5dee8;padding-top:6px}
+.answered .cfb{display:block}
+.dots{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 16px;padding:0;list-style:none}
+.dot{width:32px;height:32px;border-radius:50%;border:2px solid #dfe7f0;background:#fff;color:#526276;font:inherit;font-size:.8rem;font-weight:700;cursor:pointer;padding:0;margin:0}
+.dot.ok{background:#1f9d63;border-color:#1f9d63;color:#fff}
+.dot.ng{background:#c94040;border-color:#c94040;color:#fff}
+.dot.cur{outline:3px solid #2457a7;outline-offset:2px}
+.exp-box{font-weight:400;color:#203047;margin-top:6px;line-height:1.75}
+.notice{margin-top:16px;border-radius:12px;padding:14px 16px;background:#fff4dc;color:#6b4a00;font-weight:700}
+.notice[hidden]{display:none}
+.actions .left{margin-right:auto}
+.tag.na{background:#eef1f5;color:#627187}
+.verdict{display:none;margin-top:16px;border-radius:12px;padding:12px 16px;font-weight:700}
+.verdict.show{display:block}
+.verdict.ok{background:#e8f7ef;color:#1f7a4f}
+.verdict.ng{background:#fdeeee;color:#a12f2f}
+.actions{display:flex;gap:10px;justify-content:flex-end;margin-top:16px;flex-wrap:wrap}
+.btn{border:1px solid #2457a7;background:#2457a7;color:#fff;border-radius:8px;padding:10px 20px;font:inherit;font-weight:700;cursor:pointer}
+.btn:hover{filter:brightness(1.1)}
+.btn:disabled{opacity:.4;cursor:default;filter:none}
+.btn.ghost{background:#fff;color:#2457a7}
+.btn[hidden],.actions[hidden]{display:none}
+.next-set{background:#1f9d63;border-color:#1f9d63;text-decoration:none;display:inline-block}
+.score{font-size:2.6rem;font-weight:800;color:#2457a7;margin:.1em 0;line-height:1.3}
+.score small{font-size:1rem;color:#627187;font-weight:600}
+.passmsg{font-weight:700}
+.passmsg.ok{color:#1f7a4f}.passmsg.ng{color:#a12f2f}
+.review-item{border-top:1px solid #e4ebf3;padding:14px 0}
+.review-item:first-of-type{border-top:none}
+.rq{font-weight:700}
+.tag{display:inline-block;font-size:.75rem;font-weight:700;padding:1px 8px;border-radius:99px;margin-right:6px}
+.tag.ok{background:#e8f7ef;color:#1f7a4f}.tag.ng{background:#fdeeee;color:#a12f2f}
+.ans{font-size:.92rem;margin:.3em 0}
+.ans img{height:2.2em;width:auto;vertical-align:middle;margin:0 2px}
+.exp{font-size:.88rem;color:#526276;margin:.2em 0 0;padding-left:1em}
+.zoom{position:fixed;inset:0;background:rgba(10,20,35,.85);display:none;align-items:center;justify-content:center;padding:16px;z-index:10;cursor:zoom-out}
+.zoom.show{display:flex}
+.zoom img{max-width:100%;max-height:100%;border-radius:8px}
+footer{text-align:center;color:#627187;font-size:.8rem;padding:0 16px 24px}
+@media(max-width:600px){.panel{padding:16px}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><p>X線機器学 国試対策 ／ X線管・高電圧装置</p><h1>高電圧装置2</h1><p>全10問</p></div></header>
+<main class="wrap">
+  <nav aria-label="戻る"><a class="back" href="./xray-equipment.html">← X線機器学の問題集一覧へ</a><a class="back" href="./portal.html">学習ポータルにもどる</a></nav>
+  <p class="instruction">各問題に解答して正誤と解説を確認しましょう。正解だと思う選択肢をタップまたはクリックするとすぐに解答が表示されます。「スキップ」で後回しにしたり、上の番号から好きな問題に移動したりできます。最後に合計得点を確認でき、何度でも取り組めます。</p>
+
+  <section class="panel" id="start">
+    <p class="scope">インバータ式装置ほか</p>
+    <p class="muted">全10問 ／ 目標：100%以上の正解</p>
+    
+    <div class="options">
+      <label><input type="checkbox" id="optShuffleQ" checked> 問題の順番をシャッフル</label>
+      <label><input type="checkbox" id="optShuffleC" checked> 選択肢をシャッフル</label>
+    </div>
+    <p class="muted" id="bestStart"></p>
+    <div class="actions"><button class="btn" id="btnStart">開始</button></div>
+  </section>
+
+  <section class="panel" id="quiz" hidden>
+    <div class="progress"><span id="progText"></span><div class="bar"><span id="progBar"></span></div><span id="scoreNow"></span></div>
+    <ul class="dots" id="dots" aria-label="問題一覧（押すとその問題へ移動）"></ul>
+    <div class="qnum" id="qnum"></div>
+    <div class="qtext" id="qtext"></div>
+    <div id="multiNote"></div>
+    <div id="qimgWrap"></div>
+    <ul class="choices" id="choices"></ul>
+    <div class="verdict" id="verdict" role="status" aria-live="polite"></div>
+    <div class="notice" id="notice" hidden>
+      <div id="noticeText"></div>
+      <div class="actions">
+        <button class="btn ghost" id="btnToUnanswered">未回答の問題へ</button>
+        <button class="btn" id="btnFinishAnyway">このまま結果を表示</button>
+      </div>
+    </div>
+    <div class="actions" id="navActions">
+      <button class="btn ghost left" id="btnPrev">← 前へ</button>
+      <button class="btn ghost" id="btnSkip" hidden>スキップ</button>
+      <button class="btn" id="btnCheck" hidden disabled>解答</button>
+      <button class="btn" id="btnNext" hidden>次へ →</button>
+    </div>
+  </section>
+
+  <section id="result" hidden>
+    <div class="panel">
+      <h2>結果</h2>
+      <div class="score" id="scoreBig"></div>
+      <div class="passmsg" id="passMsg"></div>
+      <div class="muted" id="bestResult"></div>
+      <div class="actions">
+        <button class="btn ghost" id="btnRetryWrong">間違えた問題だけ解き直す</button>
+        <button class="btn" id="btnRetryAll">もう一度挑戦</button>
+        <a class="btn next-set" id="btnNextSet" hidden></a>
+      </div>
+    </div>
+    <div class="panel"><h2>ふりかえり</h2><div id="review"></div></div>
+  </section>
+</main>
+<footer>放射線技術学 学習ポータル</footer>
+<div class="zoom" id="zoom"><img alt="拡大画像" id="zoomImg"></div>
+
+<script>
+/* ===== 問題データ =====
+   q: 問題文 / img: 問題の画像(任意)
+   exp: 解答後に表示するまとめの解説(任意)
+   choices: t=選択肢の文, img=選択肢の画像, ok=正解ならtrue, fb=選択肢ごとの解説(任意)
+   正解(ok:true)を2つ以上にすると「2つ選べ」形式になります。 */
+const QUESTIONS = [
+  {
+    "q": "インバータ式X線高電圧装置で正しいのはどれか。",
+    "choices": [
+      {
+        "t": "インバータ周波数が高いほど電力変換効率は高い。",
+        "ok": false,
+        "fb": "電力変換→変圧器での一次側から二次側への高電圧化のこと → 高周波ほど損失が大きいため効率は低下する"
+      },
+      {
+        "t": "管電圧のリプルは高電圧ケーブルが長いほど小さい。",
+        "ok": true,
+        "fb": "正しい。高電圧ケーブルは長いほど静電容量が増大し、リプルを平滑化する。"
+      },
+      {
+        "t": "インバータ周波数が高いほど高電圧変圧器の鉄損が減少する。",
+        "ok": false,
+        "fb": "周波数が高いほど、鉄損は増大する。"
+      },
+      {
+        "t": "共振形装置はチョッパのパルス幅を変化させて管電圧の調整を行う。",
+        "ok": false,
+        "fb": "チョッパ回路を用いるのは非共振形（方形波）。"
+      },
+      {
+        "t": "方形波形装置は共振形装置よりもスイッチング時の電力損失が小さい。",
+        "ok": false,
+        "fb": "インバータ回路におけるスイッチング<br>非共振形：ハードスイッチング ← 良いことではない<br>共振形：ソフトスイッチング"
+      }
+    ],
+    "exp": "高電圧ケーブルには静電容量（約250 pF/m）があり、長いほど容量が増えて管電圧が平滑化され、リプルは小さくなる。ほかの選択肢：周波数が高いほど変換効率は下がり、鉄損は増える／チョッパのパルス幅で調整するのは非共振形／方形波形（ハードスイッチング）は共振形よりスイッチング損失が大きい。"
+  },
+  {
+    "q": "インバータ式X線装置のインバータ周波数を高くしたとき、誤っているのはどれか。",
+    "choices": [
+      {
+        "t": "誘起起電力が高くなる。",
+        "ok": false,
+        "fb": "下記参照。正しい。<br><a href=\"https://minnano-cloud.github.io/basicMRI_1/images/high-voltage-transformer-emf.png\" target=\"_blank\" rel=\"noopener noreferrer\">高電圧変圧器の起電力の図を見る</a>"
+      },
+      {
+        "t": "高電圧変圧器が小型化できる。",
+        "ok": false,
+        "fb": "正しい。起電力の式から高周波ほど起電力を大きくできる→鉄心や巻き数を減らせる → 小型化が可能"
+      },
+      {
+        "t": "高電圧変圧器の鉄損が小さくなる。",
+        "ok": true,
+        "fb": "高周波ほど損失大きい（鉄損など）"
+      },
+      {
+        "t": "管電圧のリプル百分率が小さくなる。",
+        "ok": false,
+        "fb": "正しい。高周波交流は整流した際にリプルが小さくなる。"
+      },
+      {
+        "t": "電磁エネルギーが発生しやすくなる。",
+        "ok": false,
+        "fb": "電磁エネルギー（電磁ノイズ）は高周波ほど顕著となる。"
+      }
+    ],
+    "exp": "インバータ周波数を高くすると、誘起起電力が大きくなって変圧器を小型化でき、リプルも小さくなる。一方で、鉄損などの損失と電磁ノイズは増える。「鉄損が小さくなる」が誤り。"
+  },
+  {
+    "q": "容量0.5μFのコンデンサ式X線装置において、充電電圧80 kVで10 mAs放出したときの波尾切断電圧［kV］はどれか。",
+    "choices": [
+      {
+        "t": "50",
+        "ok": false
+      },
+      {
+        "t": "60",
+        "ok": true,
+        "fb": "電圧降下＝mAs/μF<br>電圧降下＝10/0.5=20<br>充電電圧 80-20=60kV"
+      },
+      {
+        "t": "65",
+        "ok": false
+      },
+      {
+        "t": "70",
+        "ok": false
+      },
+      {
+        "t": "75",
+        "ok": false
+      }
+    ],
+    "exp": "コンデンサ式では、放電による電圧降下［kV］＝ 放出したmAs ÷ 容量［μF］。10 ÷ 0.5 ＝ 20 kV 下がるので、波尾切断電圧 ＝ 80 − 20 ＝ 60 kV。"
+  },
+  {
+    "q": "共振形インバータ式X線装置で正しいのはどれか。",
+    "choices": [
+      {
+        "t": "並列共振形は大容量X線装置に適している。",
+        "ok": false,
+        "fb": "【共振形】<br>直列共振：大容量に適する。負荷抵抗が小さいほど共振現象を起こしやすい。<br>並列共振：大容量は不適。小容量が適する。負荷抵抗が大きいほど共振現象を起こしやすい。"
+      },
+      {
+        "t": "大負荷になるほどインバータ周波数が高くなる。",
+        "ok": true,
+        "fb": "軽負荷と大負荷で比較した場合：大負荷の方が周波数は高くなる（＋一次電流が連続的となる）"
+      },
+      {
+        "t": "スイッチング時の電力損失は非共振形より大きい。",
+        "ok": false
+      },
+      {
+        "t": "直列共振形は負荷抵抗が大きいほど電流の変化が大きい。",
+        "ok": false,
+        "fb": "直列共振<br>負荷抵抗が小さいほど電流の変化は大きい<br><a href=\"https://minnano-cloud.github.io/basicMRI_1/images/series-resonance-frequency-current.png\" target=\"_blank\" rel=\"noopener noreferrer\">直列共振回路の周波数–電流特性を見る</a>"
+      },
+      {
+        "t": "並列共振形は負荷抵抗が小さいほど共振現象を利用しやすい。",
+        "ok": false
+      }
+    ],
+    "exp": "共振形では、負荷が大きく（管電流が大きく）なるほどインバータ周波数を高くして大きな電力を送る。直列共振形は負荷抵抗が小さいほど電流変化が大きく大容量向き、並列共振形は負荷抵抗が大きいほど共振を利用しやすく小容量向き。共振形はソフトスイッチングなので、非共振形よりスイッチング損失が小さい。"
+  },
+  {
+    "q": "短時間負荷が100kV、320mAのとき、X線管入力が30.4kWであった。<br />管電圧のリプル百分率[％]に最も近いのはどれか。",
+    "choices": [
+      {
+        "t": "4",
+        "ok": false
+      },
+      {
+        "t": "8",
+        "ok": false
+      },
+      {
+        "t": "12",
+        "ok": true,
+        "fb": "公称最大電力 = 管電圧×管電流×係数f    通常kWで表す。<br>f=1.0（リプル10%以下）<br>f=0.95（リプル10%超〜25%以下）<br>f=0.74（リプル25%超）<br><br>100k × 320m × f =30.4kW<br>30.4/32 = 0.95　よってリプルは10%超〜25%以下となる。"
+      },
+      {
+        "t": "30",
+        "ok": false
+      },
+      {
+        "t": "40",
+        "ok": false
+      }
+    ],
+    "exp": "X線管入力 ＝ 管電圧 × 管電流 × 係数f。100 kV × 320 mA ＝ 32 kW で、30.4 ÷ 32 ＝ 0.95。f＝0.95はリプル10%超〜25%以下に当たるので、選択肢では12%。"
+  },
+  {
+    "q": "X線高電圧装置について正しいのはどれか。2つ選べ。",
+    "choices": [
+      {
+        "t": "定電圧形のX線の開閉はテトロード管で制御される。",
+        "ok": true,
+        "fb": "正しい。２次側にテトロード管が配置される。リプルは4%以下。"
+      },
+      {
+        "t": "非共振形インバータ式の管電圧制御はDC-DCコンバータで行われる。",
+        "ok": true,
+        "fb": "正しい。DC-DCコンバータ（チョッパ回路）のデューティー比を変えることで管電圧を調整。"
+      },
+      {
+        "t": "三相全波整流方式（6ピーク）の管電圧脈動率の理論値は3.4％である。",
+        "ok": false,
+        "fb": "三相6ピークは13.4%"
+      },
+      {
+        "t": "三相全波整流方式（12ピーク）の高電圧変圧器の二次側はΔ-Δ結線である。",
+        "ok": false,
+        "fb": "三相12ピーク　一次側 Δ - 二次側 Y-Δ"
+      },
+      {
+        "t": "共振形インバータ式における管電圧のフィードバック制御は、一次側の管電圧を検出して行われる。",
+        "ok": false,
+        "fb": "インバータ式は二次側に管電圧と管電流を検出する回路がある。これによってフィードバック制御を行う。"
+      }
+    ],
+    "exp": "定電圧形は二次側のテトロード管でX線を開閉する。非共振形インバータ式は、DC-DCコンバータ（チョッパ回路）のデューティ比を変えて管電圧を制御する。三相6ピークのリプル理論値は13.4%（3.4%は12ピーク）、12ピークの変圧器はΔ-Δではない、インバータ式のフィードバックは二次側の管電圧を検出して行う。"
+  },
+  {
+    "q": "共振形インバータ方式の基本原理図を示す。<br />管電圧のフィードバック制御を行う箇所はどれか。",
+    "img": "./h5p/高電圧装置2/content/images/inverter-circuit-q7-iGTusr8F-VdDHCLVo.png",
+    "choices": [
+      {
+        "t": "AC-DCコンバータ",
+        "ok": false
+      },
+      {
+        "t": "平滑化回路",
+        "ok": false
+      },
+      {
+        "t": "インバータ",
+        "ok": true,
+        "fb": "変圧器の部分が共振回路となっている。抵抗は２次側の全て。共振形はインバータ回路で管電圧を制御する。"
+      },
+      {
+        "t": "共振回路",
+        "ok": false
+      },
+      {
+        "t": "整流回路",
+        "ok": false
+      }
+    ],
+    "exp": "共振形インバータ式は、インバータ回路の周波数（スイッチング）を変えて管電圧を制御するので、管電圧のフィードバック信号はインバータに送られる。AC-DCコンバータと平滑化回路は直流をつくる部分、整流回路は高電圧を直流に戻す部分で、ここで管電圧を調整するわけではない。"
+  },
+  {
+    "q": "インバータ式X線高電圧装置で誤っているのはどれか。",
+    "choices": [
+      {
+        "t": "インバータ周波数が高いほど電力変換効率は低い。",
+        "ok": false,
+        "fb": "正しい。電力変換効率と問われたら変圧器での昇圧と考える。よって高周波化は効率が低下する。"
+      },
+      {
+        "t": "電源インピーダンスが高いほど装置の定格出力は小さい。",
+        "ok": false,
+        "fb": "インピーダンス高い＝定格出力小さい"
+      },
+      {
+        "t": "高電圧ケーブルが長いほど管電圧のリプル百分率は小さい。",
+        "ok": false,
+        "fb": "高電圧ケーブル長い＝静電容量が増加→リプルの平滑化（リプル小さくなる）"
+      },
+      {
+        "t": "インバータ周波数が高いほど管電圧のリプル百分率は小さい。",
+        "ok": false,
+        "fb": "高周波ほど整流した後に直流に近づく。"
+      },
+      {
+        "t": "インバータ周波数が高いほど高周波高電圧変圧器の損失は小さい。",
+        "ok": true,
+        "fb": "高周波ほど変圧器での損失は大きい。"
+      }
+    ],
+    "exp": "インバータ周波数が高いほど、高周波高電圧変圧器の鉄損などの損失は大きくなる。ほかは正しい：周波数が高いほど電力変換効率（電源効率）は低い／電源インピーダンスが高いほど定格出力は小さい／高電圧ケーブルが長いほど静電容量でリプルが小さい／周波数が高いほどリプルは小さい。"
+  },
+  {
+    "q": "インバータ式X線高電圧装置のフィードバック制御について正しいのはどれか。",
+    "choices": [
+      {
+        "t": "制御間隔は1 ms以上である。",
+        "ok": false,
+        "fb": "インバータのフィードバック制御：数十μsec（マイクロ秒）"
+      },
+      {
+        "t": "管電流に対する制御は行われていない。",
+        "ok": false,
+        "fb": "管電圧・管電流ともに制御する。"
+      },
+      {
+        "t": "撮影時間を制御して適正線量を調整する。",
+        "ok": false,
+        "fb": "あまり関係ない設問かと。自動露出制御（AEC）の説明と考えられる。"
+      },
+      {
+        "t": "非共振形〈方形波〉インバータ式装置では周波数を調整する。",
+        "ok": false,
+        "fb": "非共振（方形波）形はチョッパ回路で制御。"
+      },
+      {
+        "t": "パルス幅変調制御共振形インバータ式装置では位相シフト角を調整する。",
+        "ok": true,
+        "fb": "正しい。共振形だが、パルス幅変調制御は周波数固定で波の位相を変えることで管電圧制御を行う。よってここにフィードバック信号が送られる。"
+      }
+    ],
+    "exp": "パルス幅変調（PWM）制御の共振形は、周波数を固定したままスイッチングの位相シフト角を変えて管電圧を調整するので、フィードバックで位相シフト角を調整する。フィードバックの間隔は数十μs程度で、管電圧・管電流ともに制御する。非共振形はチョッパ回路で調整し、周波数は変えない。"
+  },
+  {
+    "q": "巻線比n2/n1 = 500の単相2ピーク形X線高電圧装置で、管電流600 mAを流したときの一次電流[A]に最も近いのはどれか。",
+    "choices": [
+      {
+        "t": "250",
+        "ok": false
+      },
+      {
+        "t": "280",
+        "ok": false
+      },
+      {
+        "t": "300",
+        "ok": false
+      },
+      {
+        "t": "330",
+        "ok": true,
+        "fb": "n2/n1=V2/V1=A1/A2　より<br>n2/n1=500<br>A1/A2=A1/600m×1.1<br>A1=500×600m×1.1=330A"
+      },
+      {
+        "t": "420",
+        "ok": false
+      }
+    ],
+    "exp": "変圧器では、電流は巻線比に反比例する（I1 ＝ I2 × n2/n1）。単相2ピーク形では、平均値で表した管電流を実効値に直すため約1.1倍する。I1 ＝ 600 mA × 1.1 × 500 ≒ 330 A。"
+  }
+];
+const PASS = 100;
+/* 結果画面の「次の問題に進む」ボタンのリンク先（不要なら null） */
+const NEXT_SET = {"url": "./xray-highvoltage3-v2.html", "label": "高電圧装置3"};
+const STORAGE_KEY = "quiz-xrayhighvoltage2v2-best";
+
+/* ===== 動作部分（通常は編集不要） ===== */
+const $ = id => document.getElementById(id);
+let order=[], pos=0, state=[], corder=[], selected=new Set();
+
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function getBest(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY));}catch(e){return null;}}
+function setBest(v){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(v));}catch(e){}}
+function showBest(el){const b=getBest();el.textContent=b?`これまでの最高記録：${b.score} / ${b.total}問（${b.date}）`:"";}
+function choiceHTML(c){return c.img?`<img src="${c.img}" alt="${c.t||"選択肢の画像"}">`:(c.t||"");}
+function correctIdx(q){return q.choices.map((c,i)=>c.ok?i:-1).filter(i=>i>=0);}
+function nCorrect(){return state.filter(s=>s&&s.ok).length;}
+function nAnswered(){return state.filter(Boolean).length;}
+
+function start(list){
+  const base=list||QUESTIONS.map((_,i)=>i);
+  order=$("optShuffleQ").checked?shuffle(base):base;
+  const sc=$("optShuffleC").checked;
+  corder=order.map(qi=>{const ix=QUESTIONS[qi].choices.map((_,i)=>i);return sc?shuffle(ix):ix;});
+  state=order.map(()=>null);pos=0;
+  $("start").hidden=true;$("result").hidden=true;$("quiz").hidden=false;
+  render();window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function renderDots(){
+  const ul=$("dots");ul.innerHTML="";
+  order.forEach((_,i)=>{
+    const li=document.createElement("li"),b=document.createElement("button");
+    b.className="dot"+(state[i]?(state[i].ok?" ok":" ng"):"")+(i===pos?" cur":"");
+    b.textContent=i+1;b.title=state[i]?(state[i].ok?"正解":"不正解"):"未回答";
+    b.setAttribute("aria-label",`問題${i+1}（${b.title}）`);
+    b.addEventListener("click",()=>go(i));
+    li.appendChild(b);ul.appendChild(li);
+  });
+}
+
+function render(){
+  const q=QUESTIONS[order[pos]], st=state[pos], multi=correctIdx(q).length>1;
+  selected=new Set();
+  $("notice").hidden=true;$("navActions").hidden=false;
+  $("progText").textContent=`${pos+1} / ${order.length}`;
+  $("progBar").style.width=(nAnswered()/order.length*100)+"%";
+  $("scoreNow").textContent=`正解 ${nCorrect()}`;
+  renderDots();
+  $("qnum").textContent=`問題 ${pos+1}`;
+  $("qtext").innerHTML=q.q;
+  $("multiNote").innerHTML=multi?`<span class="multi-note">${correctIdx(q).length}つ選んでから「解答」を押してください</span>`:"";
+  $("qimgWrap").innerHTML=q.img?`<img class="qimg" src="${q.img}" alt="問題の画像（タップで拡大）">`:"";
+  const ul=$("choices");ul.innerHTML="";ul.className="choices"+(q.choices.some(c=>c.img)?" imgs":"");
+  corder[pos].forEach((orig,n)=>{
+    const c=q.choices[orig],li=document.createElement("li"),b=document.createElement("button");
+    b.className="choice";b.dataset.orig=orig;
+    b.innerHTML=`<span class="no">${n+1}</span><span class="body">${choiceHTML(c)}${c.fb?`<span class="cfb">${c.fb}</span>`:""}</span>`;
+    b.addEventListener("click",()=>multi?toggle(orig,b,q):answer(new Set([orig])));
+    li.appendChild(b);ul.appendChild(li);
+  });
+  $("verdict").className="verdict";
+  if(st)showAnswered(q,st);
+  $("btnPrev").disabled=pos===0;
+  $("btnSkip").hidden=!!st;
+  $("btnCheck").hidden=!multi||!!st;$("btnCheck").disabled=true;
+  $("btnNext").hidden=!st;
+  $("btnNext").textContent=pos===order.length-1?"結果を表示":"次へ →";
+}
+
+function showAnswered(q,st){
+  $("choices").classList.add("answered");
+  document.querySelectorAll(".choice").forEach(b=>{
+    b.disabled=true;
+    const o=Number(b.dataset.orig);
+    if(q.choices[o].ok)b.classList.add("correct",...(st.chosen.includes(o)?[]:["missed"]));
+    else if(st.chosen.includes(o))b.classList.add("wrong");
+  });
+  const v=$("verdict");
+  v.className="verdict show "+(st.ok?"ok":"ng");
+  v.innerHTML=(st.ok?"正解！":"不正解… 緑の枠が正解です。")+(q.exp?`<div class="exp-box">${q.exp}</div>`:"");
+}
+
+function toggle(orig,b,q){
+  if(selected.has(orig)){selected.delete(orig);b.classList.remove("selected");}
+  else{selected.add(orig);b.classList.add("selected");}
+  $("btnCheck").disabled=selected.size!==correctIdx(q).length;
+}
+
+function answer(chosen){
+  const q=QUESTIONS[order[pos]],ans=correctIdx(q);
+  const ok=chosen.size===ans.length&&ans.every(i=>chosen.has(i));
+  state[pos]={chosen:[...chosen],ok};
+  render();
+  $("btnNext").focus({preventScroll:true});
+}
+
+function go(i){pos=i;render();window.scrollTo({top:0,behavior:"smooth"});}
+function next(){
+  if(pos<order.length-1){go(pos+1);return;}
+  endCheck();
+}
+function skip(){
+  const un=state.map((s,i)=>s?-1:i).filter(i=>i>=0&&i!==pos);
+  const after=un.find(i=>i>pos);
+  if(pos<order.length-1)go(pos+1);
+  else if(un.length)go(after!==undefined?after:un[0]);
+  else endCheck();
+}
+function endCheck(){
+  const un=state.filter(s=>!s).length;
+  if(!un){finish();return;}
+  $("noticeText").textContent=`未回答の問題が ${un} 問あります。未回答の問題は「不正解」として集計されます。`;
+  $("notice").hidden=false;$("navActions").hidden=true;
+  $("notice").scrollIntoView({behavior:"smooth",block:"center"});
+}
+
+function finish(){
+  $("quiz").hidden=true;$("result").hidden=false;
+  const correct=nCorrect();
+  $("scoreBig").innerHTML=`${correct}<small> / ${order.length}問</small>`;
+  const full=order.length===QUESTIONS.length,pm=$("passMsg");
+  if(full){
+    const pass=correct/order.length*100>=PASS;
+    pm.className="passmsg "+(pass?"ok":"ng");
+    pm.textContent=pass?`目標（${PASS}%）達成！`:`目標（${PASS}%）まであと少し。解説を見直してもう一度挑戦しよう。`;
+    const b=getBest();
+    if(!b||correct>b.score){const d=new Date();setBest({score:correct,total:order.length,date:`${d.getMonth()+1}/${d.getDate()}`});}
+  }else pm.textContent="";
+  showBest($("bestResult"));
+  $("btnRetryWrong").hidden=!state.some(s=>!s||!s.ok);
+  const rv=$("review");rv.innerHTML="";
+  order.forEach((qi,n)=>{
+    const q=QUESTIONS[qi],st=state[n],ans=correctIdx(q);
+    const fmt=list=>list.map(i=>choiceHTML(q.choices[i])).join("、");
+    const tag=!st?`<span class="tag na">未回答</span>`:`<span class="tag ${st.ok?"ok":"ng"}">${st.ok?"正解":"不正解"}</span>`;
+    const line=!st?`正解：${fmt(ans)}`:st.ok?`正解：${fmt(ans)}`:`あなたの解答：${fmt(st.chosen)} ／ 正解：${fmt(ans)}`;
+    let fbs=q.exp?`<p class="exp">${q.exp}</p>`:"";
+    q.choices.forEach((c,i)=>{ if(c.fb&&!c.ok&&st&&st.chosen.includes(i)) fbs+=`<p class="exp">✗ ${c.fb}</p>`;
+                               if(c.fb&&c.ok&&!q.exp) fbs+=`<p class="exp">✓ ${c.fb}</p>`; });
+    const div=document.createElement("div");div.className="review-item";
+    div.innerHTML=`<div class="rq">${tag}問題${n+1}　${q.q}</div><div class="ans">${line}</div>${fbs}`;
+    rv.appendChild(div);
+  });
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+$("btnStart").addEventListener("click",()=>start());
+$("btnCheck").addEventListener("click",()=>answer(selected));
+$("btnNext").addEventListener("click",next);
+$("btnPrev").addEventListener("click",()=>{if(pos>0)go(pos-1);});
+$("btnSkip").addEventListener("click",skip);
+$("btnToUnanswered").addEventListener("click",()=>go(state.findIndex(s=>!s)));
+$("btnFinishAnyway").addEventListener("click",finish);
+$("btnRetryAll").addEventListener("click",()=>start());
+$("btnRetryWrong").addEventListener("click",()=>start(order.filter((qi,i)=>!state[i]||!state[i].ok)));
+document.addEventListener("click",e=>{
+  if(e.target.classList.contains("qimg")){$("zoomImg").src=e.target.src;$("zoom").classList.add("show");}
+  else if(e.target.closest("#zoom"))$("zoom").classList.remove("show");
+});
+showBest($("bestStart"));
+if(NEXT_SET){const a=$("btnNextSet");a.href=NEXT_SET.url;a.textContent=`次の問題に進む（${NEXT_SET.label}）→`;a.hidden=false;}
+</script>
+</body>
+</html>
