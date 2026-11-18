@@ -8,12 +8,13 @@
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#f4f6fa;color:#203047;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;line-height:1.7}
-header{background:linear-gradient(135deg,#173b72,#2d67b2);padding:30px 20px;color:#fff}
+header{background:linear-gradient(135deg,#173b72,#2d67b2);padding:16px 20px;color:#fff}
 .wrap{width:min(1000px,calc(100% - 32px));margin:auto}
 header .wrap{width:min(1000px,100%)}
-h1{margin:5px 0;font-size:clamp(1.6rem,4vw,2.2rem)}
+h1{margin:2px 0;font-size:clamp(1.3rem,3.5vw,1.9rem);line-height:1.35}
+header .count{font-size:.85rem;opacity:.9;margin-left:.6em;font-weight:400}
 header p{margin:0;font-size:.9rem}
-main{padding:24px 0 40px}
+main{padding:16px 0 40px}
 .back{display:inline-block;color:#2457a7;font-weight:700;text-decoration:none;margin:0 18px 16px 0}
 .back:hover{text-decoration:underline}
 a:focus-visible,button:focus-visible{outline:3px solid #2457a7;outline-offset:4px}
@@ -86,18 +87,18 @@ a:focus-visible,button:focus-visible{outline:3px solid #2457a7;outline-offset:4p
 .zoom.show{display:flex}
 .zoom img{max-width:100%;max-height:100%;border-radius:8px}
 footer{text-align:center;color:#627187;font-size:.8rem;padding:0 16px 24px}
-@media(max-width:600px){.panel{padding:16px}}
+@media(max-width:600px){.panel{padding:16px}header{padding:10px 16px}header p{font-size:.75rem}h1{font-size:1.2rem}main{padding:10px 0 32px}.back{margin:0 14px 8px 0;font-size:.9rem}.instruction{font-size:.85rem;margin-bottom:12px;line-height:1.6}}
 </style>
 </head>
 <body>
-<header><div class="wrap"><p>磁気共鳴断層画像技術学 ／ 基礎</p><h1>MRI基礎3</h1><p>全10問</p></div></header>
+<header><div class="wrap"><p>磁気共鳴断層画像技術学 ／ 基礎</p><h1>MRI基礎3<span class="count">全10問</span></h1></div></header>
 <main class="wrap">
   <nav aria-label="戻る"><a class="back" href="./mri.html">← MRI問題集へもどる</a><a class="back" href="./portal.html">学習ポータルにもどる</a></nav>
   <p class="instruction">各問題に解答して正誤と解説を確認しましょう。正解だと思う選択肢をタップまたはクリックするとすぐに解答が表示されます。「スキップ」で後回しにしたり、上の番号から好きな問題に移動したりできます。最後に合計得点を確認でき、何度でも取り組めます。</p>
 
   <section class="panel" id="start">
     <p class="scope">緩和現象 / 装置 / スピンエコー法</p>
-    <p class="muted">全10問 ／ 目標：100%以上の正解</p>
+    <p class="muted">全10問 ／ 目標：全問正解</p>
     <p class="muted">全問正解で夜パフェ「な⚪︎かま堂」に行ってもいいです！</p>
     <div class="options">
       <label><input type="checkbox" id="optShuffleQ" checked> 問題の順番をシャッフル</label>
@@ -182,7 +183,7 @@ const QUESTIONS = [
       {
         "t": "脂肪はT1緩和時間が短いためT1WIで高信号となる。",
         "ok": false,
-        "fb": "正しい記述   【絶対覚える】脂肪はT1（縦緩和時間）が短い → T1WIで高信号（白くなる）"
+        "fb": "正しい記述   <br>【絶対覚える】脂肪はT1（縦緩和時間）が短い → T1WIで高信号（白くなる）"
       }
     ],
     "exp": "スピンエコー法は最初に90°パルスで横磁化をつくり、その後の180°パルスで位相をそろえてエコーを得る（最初に180°パルスを使うのは反転回復法）。撮像条件は、T1強調＝短TR・短TE、T2強調＝長TR・長TE、プロトン密度強調＝長TR・短TE。「長TR・短TE」はT2強調ではなくプロトン密度強調になる。"
@@ -224,7 +225,7 @@ const QUESTIONS = [
       {
         "t": "1",
         "ok": true,
-        "fb": "FOVとマトリクス数で求められる。他のパラメータは関係ない。 250mm / 256 = 約1mm程度"
+        "fb": "FOVとマトリクス数で求められる。他のパラメータは関係ない。<br><br>250mm / 256 = 約1mm程度"
       },
       {
         "t": "1.5",
@@ -286,12 +287,12 @@ const QUESTIONS = [
       {
         "t": "脳下垂体後葉は高信号で描出される。",
         "ok": true,
-        "fb": "短いTEと短いTRなのでT1強調画像となる。下垂体後葉が高信号は正しい。"
+        "fb": "短いTEと短いTRなのでT1強調画像となる。<br>下垂体後葉が高信号は正しい。"
       },
       {
         "t": "白質は灰白質よりも高信号で描出される。",
         "ok": true,
-        "fb": "短いTEと短いTRなのでT1強調画像となる。白質 &gt; 灰白質：白質の方が明るい。"
+        "fb": "短いTEと短いTRなのでT1強調画像となる。<br>白質 &gt; 灰白質：白質の方が明るい。"
       }
     ],
     "exp": "TR 400 ms・TE 10 msはT1強調像。T1強調像では白質（髄鞘の脂質が多い）が灰白質より高信号になり、下垂体後葉も高信号に写る。脂肪は高信号、脳脊髄液は低信号。脳梗塞は水分が増えるためT1強調像では低信号（高信号になるのはT2強調像・FLAIR・DWI）。"
@@ -392,7 +393,7 @@ const QUESTIONS = [
       {
         "t": "RFコイルは液体ヘリウム中にある。",
         "ok": false,
-        "fb": "RFコイル：患者に一番近いところにある。液体ヘリウムに浸されているのは【静磁場コイル】。"
+        "fb": "RFコイル：患者に一番近いところにある。<br>液体ヘリウムに浸されているのは【静磁場コイル】。"
       },
       {
         "t": "T2はT1より長い。",
@@ -474,7 +475,7 @@ function start(list){
   corder=order.map(qi=>{const ix=QUESTIONS[qi].choices.map((_,i)=>i);return sc?shuffle(ix):ix;});
   state=order.map(()=>null);pos=0;
   $("start").hidden=true;$("result").hidden=true;$("quiz").hidden=false;
-  render();window.scrollTo({top:0,behavior:"smooth"});
+  render();toQuizTop();
 }
 
 function renderDots(){
@@ -545,7 +546,8 @@ function answer(chosen){
   $("btnNext").focus({preventScroll:true});
 }
 
-function go(i){pos=i;render();window.scrollTo({top:0,behavior:"smooth"});}
+function toQuizTop(){$("quiz").scrollIntoView({behavior:"smooth",block:"start"});}
+function go(i){pos=i;render();toQuizTop();}
 function next(){
   if(pos<order.length-1){go(pos+1);return;}
   endCheck();

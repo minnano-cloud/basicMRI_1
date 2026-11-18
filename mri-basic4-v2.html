@@ -8,12 +8,13 @@
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#f4f6fa;color:#203047;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;line-height:1.7}
-header{background:linear-gradient(135deg,#173b72,#2d67b2);padding:30px 20px;color:#fff}
+header{background:linear-gradient(135deg,#173b72,#2d67b2);padding:16px 20px;color:#fff}
 .wrap{width:min(1000px,calc(100% - 32px));margin:auto}
 header .wrap{width:min(1000px,100%)}
-h1{margin:5px 0;font-size:clamp(1.6rem,4vw,2.2rem)}
+h1{margin:2px 0;font-size:clamp(1.3rem,3.5vw,1.9rem);line-height:1.35}
+header .count{font-size:.85rem;opacity:.9;margin-left:.6em;font-weight:400}
 header p{margin:0;font-size:.9rem}
-main{padding:24px 0 40px}
+main{padding:16px 0 40px}
 .back{display:inline-block;color:#2457a7;font-weight:700;text-decoration:none;margin:0 18px 16px 0}
 .back:hover{text-decoration:underline}
 a:focus-visible,button:focus-visible{outline:3px solid #2457a7;outline-offset:4px}
@@ -86,18 +87,18 @@ a:focus-visible,button:focus-visible{outline:3px solid #2457a7;outline-offset:4p
 .zoom.show{display:flex}
 .zoom img{max-width:100%;max-height:100%;border-radius:8px}
 footer{text-align:center;color:#627187;font-size:.8rem;padding:0 16px 24px}
-@media(max-width:600px){.panel{padding:16px}}
+@media(max-width:600px){.panel{padding:16px}header{padding:10px 16px}header p{font-size:.75rem}h1{font-size:1.2rem}main{padding:10px 0 32px}.back{margin:0 14px 8px 0;font-size:.9rem}.instruction{font-size:.85rem;margin-bottom:12px;line-height:1.6}}
 </style>
 </head>
 <body>
-<header><div class="wrap"><p>磁気共鳴断層画像技術学 ／ 基礎</p><h1>MRI基礎4</h1><p>全10問</p></div></header>
+<header><div class="wrap"><p>磁気共鳴断層画像技術学 ／ 基礎</p><h1>MRI基礎4<span class="count">全10問</span></h1></div></header>
 <main class="wrap">
   <nav aria-label="戻る"><a class="back" href="./mri.html">← MRI問題集へもどる</a><a class="back" href="./portal.html">学習ポータルにもどる</a></nav>
   <p class="instruction">各問題に解答して正誤と解説を確認しましょう。正解だと思う選択肢をタップまたはクリックするとすぐに解答が表示されます。「スキップ」で後回しにしたり、上の番号から好きな問題に移動したりできます。最後に合計得点を確認でき、何度でも取り組めます。</p>
 
   <section class="panel" id="start">
     <p class="scope">1.5Tと3.0Tの違い / 高速スピンエコー</p>
-    <p class="muted">全10問 ／ 目標：100%以上の正解</p>
+    <p class="muted">全10問 ／ 目標：全問正解</p>
     
     <div class="options">
       <label><input type="checkbox" id="optShuffleQ" checked> 問題の順番をシャッフル</label>
@@ -162,7 +163,7 @@ const QUESTIONS = [
       {
         "t": "SARが低下する",
         "ok": false,
-        "fb": "SARは静磁場強度の2乗に比例する。SAR（比吸収率）：単位はW/kg 。 <a href=\"https://minnano-cloud.github.io/basicMRI_1/images/sar.png\" target=\"_blank\" rel=\"noopener noreferrer\">SARの解説画像を見る</a>"
+        "fb": "SARは静磁場強度の2乗に比例する。SAR（比吸収率）：単位はW/kg 。<br><br><a href=\"https://minnano-cloud.github.io/basicMRI_1/images/sar.png\" target=\"_blank\" rel=\"noopener noreferrer\">SARの解説画像を見る</a>"
       },
       {
         "t": "縦緩和時間が短縮する。",
@@ -193,7 +194,7 @@ const QUESTIONS = [
       {
         "t": "SN比",
         "ok": true,
-        "fb": "SNRは静磁場強度に比例する。 <a href=\"https://minnano-cloud.github.io/basicMRI_1/images/1.5T3.0T.png\" target=\"_blank\" rel=\"noopener noreferrer\">1.5Tと3.0Tの比較</a>"
+        "fb": "SNRは静磁場強度に比例する。<br><br><a href=\"https://minnano-cloud.github.io/basicMRI_1/images/1.5T3.0T.png\" target=\"_blank\" rel=\"noopener noreferrer\">1.5Tと3.0Tの比較</a>"
       },
       {
         "t": "消費電力",
@@ -254,7 +255,7 @@ const QUESTIONS = [
       {
         "t": "SN比は高くなる。",
         "ok": true,
-        "fb": "2倍になる。 <a href=\"https://minnano-cloud.github.io/basicMRI_1/images/1.5T3.0T.png\" target=\"_blank\" rel=\"noopener noreferrer\">1.5Tと3.0Tの比較</a>"
+        "fb": "2倍になる。<br><br><a href=\"https://minnano-cloud.github.io/basicMRI_1/images/1.5T3.0T.png\" target=\"_blank\" rel=\"noopener noreferrer\">1.5Tと3.0Tの比較</a>"
       },
       {
         "t": "SARは2倍になる。",
@@ -305,7 +306,7 @@ const QUESTIONS = [
       {
         "t": "RF磁場（B1）不均一の影響を受けやすい。",
         "ok": true,
-        "fb": "磁場の不均一の影響は受けやすくなる。 <a href=\"https://minnano-cloud.github.io/basicMRI_1/images/1.5T3.0T.png\" target=\"_blank\" rel=\"noopener noreferrer\">1.5Tと3.0Tの比較</a>"
+        "fb": "磁場の不均一の影響は受けやすくなる。<br><br><a href=\"https://minnano-cloud.github.io/basicMRI_1/images/1.5T3.0T.png\" target=\"_blank\" rel=\"noopener noreferrer\">1.5Tと3.0Tの比較</a>"
       }
     ],
     "exp": "3 TではRFの波長が短くなり、体内で定在波（誘電効果）が生じやすいため、RF磁場（B1）が不均一になって画像に信号ムラが出やすい。SARは約4倍に増え、T1は延長し、磁化率アーチファクトと化学シフトアーチファクトはどちらも増える。"
@@ -487,7 +488,7 @@ function start(list){
   corder=order.map(qi=>{const ix=QUESTIONS[qi].choices.map((_,i)=>i);return sc?shuffle(ix):ix;});
   state=order.map(()=>null);pos=0;
   $("start").hidden=true;$("result").hidden=true;$("quiz").hidden=false;
-  render();window.scrollTo({top:0,behavior:"smooth"});
+  render();toQuizTop();
 }
 
 function renderDots(){
@@ -558,7 +559,8 @@ function answer(chosen){
   $("btnNext").focus({preventScroll:true});
 }
 
-function go(i){pos=i;render();window.scrollTo({top:0,behavior:"smooth"});}
+function toQuizTop(){$("quiz").scrollIntoView({behavior:"smooth",block:"start"});}
+function go(i){pos=i;render();toQuizTop();}
 function next(){
   if(pos<order.length-1){go(pos+1);return;}
   endCheck();
