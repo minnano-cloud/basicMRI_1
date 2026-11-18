@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>MRI基礎1｜磁気共鳴断層画像技術学</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f4f6fa;color:#203047;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;line-height:1.7}
+header{background:linear-gradient(135deg,#173b72,#2d67b2);padding:30px 20px;color:#fff}
+.wrap{width:min(1000px,calc(100% - 32px));margin:auto}
+header .wrap{width:min(1000px,100%)}
+h1{margin:5px 0;font-size:clamp(1.6rem,4vw,2.2rem)}
+header p{margin:0;font-size:.9rem}
+main{padding:24px 0 40px}
+.back{display:inline-block;color:#2457a7;font-weight:700;text-decoration:none;margin:0 18px 16px 0}
+.back:hover{text-decoration:underline}
+a:focus-visible,button:focus-visible{outline:3px solid #2457a7;outline-offset:4px}
+.instruction{margin:0 0 18px;color:#526276;font-size:.95rem}
+.panel{background:#fff;border:1px solid #dfe7f0;border-radius:16px;padding:24px;margin-bottom:16px}
+.panel h2{font-size:1.1rem;margin:0 0 8px}
+.scope{margin:0 0 6px;font-weight:700}
+.muted{color:#627187;font-size:.9rem}
+.options{display:flex;gap:18px;flex-wrap:wrap;font-size:.92rem;color:#526276;margin:14px 0 4px}
+.options label{display:flex;align-items:center;gap:6px;cursor:pointer}
+.progress{display:flex;align-items:center;gap:12px;margin-bottom:16px;font-size:.88rem;color:#627187}
+.bar{flex:1;height:8px;background:#e4ebf3;border-radius:99px;overflow:hidden}
+.bar>span{display:block;height:100%;background:#2457a7;width:0;transition:width .3s}
+.qnum{font-weight:700;color:#2457a7;font-size:.9rem}
+.qtext{font-size:1.1rem;font-weight:700;margin:.2em 0 .9em}
+.multi-note{display:inline-block;font-size:.8rem;font-weight:700;color:#8a5a00;background:#fff4dc;border-radius:99px;padding:1px 10px;margin-bottom:10px}
+.qimg{display:block;max-width:min(100%,420px);height:auto;margin:0 auto 16px;border-radius:10px;cursor:zoom-in}
+.choices{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.choices.imgs{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+.choice{width:100%;text-align:left;display:flex;gap:12px;align-items:flex-start;background:#fff;border:2px solid #dfe7f0;border-radius:12px;padding:12px 14px;font:inherit;color:inherit;cursor:pointer;transition:border-color .15s,background .15s;margin:0}
+.choice:hover:not(:disabled){border-color:#2457a7;background:#eef4fb}
+.choice:disabled{cursor:default}
+.choice .no{flex:none;width:26px;height:26px;border-radius:50%;background:#eef4fb;color:#2457a7;display:grid;place-items:center;font-weight:700;font-size:.85rem;margin-top:1px}
+.choice .body{flex:1;min-width:0}
+.choice img{max-width:100%;height:auto;display:block}
+.choices.imgs .choice{flex-direction:column;align-items:center}
+.choice.selected{border-color:#2457a7;background:#eef4fb}
+.choice.selected .no{background:#2457a7;color:#fff}
+.choice.correct{border-color:#1f9d63;background:#e8f7ef}
+.choice.correct .no{background:#1f9d63;color:#fff}
+.choice.wrong{border-color:#c94040;background:#fdeeee}
+.choice.wrong .no{background:#c94040;color:#fff}
+.choice.missed{border-style:dashed;border-color:#1f9d63}
+.cfb{display:none;margin-top:6px;font-size:.88rem;color:#526276;border-top:1px dashed #d5dee8;padding-top:6px}
+.answered .cfb{display:block}
+.verdict{display:none;margin-top:16px;border-radius:12px;padding:12px 16px;font-weight:700}
+.verdict.show{display:block}
+.verdict.ok{background:#e8f7ef;color:#1f7a4f}
+.verdict.ng{background:#fdeeee;color:#a12f2f}
+.actions{display:flex;gap:10px;justify-content:flex-end;margin-top:16px;flex-wrap:wrap}
+.btn{border:1px solid #2457a7;background:#2457a7;color:#fff;border-radius:8px;padding:10px 20px;font:inherit;font-weight:700;cursor:pointer}
+.btn:hover{filter:brightness(1.1)}
+.btn:disabled{opacity:.4;cursor:default;filter:none}
+.btn.ghost{background:#fff;color:#2457a7}
+.btn[hidden]{display:none}
+.score{font-size:2.6rem;font-weight:800;color:#2457a7;margin:.1em 0;line-height:1.3}
+.score small{font-size:1rem;color:#627187;font-weight:600}
+.passmsg{font-weight:700}
+.passmsg.ok{color:#1f7a4f}.passmsg.ng{color:#a12f2f}
+.review-item{border-top:1px solid #e4ebf3;padding:14px 0}
+.review-item:first-of-type{border-top:none}
+.rq{font-weight:700}
+.tag{display:inline-block;font-size:.75rem;font-weight:700;padding:1px 8px;border-radius:99px;margin-right:6px}
+.tag.ok{background:#e8f7ef;color:#1f7a4f}.tag.ng{background:#fdeeee;color:#a12f2f}
+.ans{font-size:.92rem;margin:.3em 0}
+.ans img{height:2.2em;width:auto;vertical-align:middle;margin:0 2px}
+.exp{font-size:.88rem;color:#526276;margin:.2em 0 0;padding-left:1em}
+.zoom{position:fixed;inset:0;background:rgba(10,20,35,.85);display:none;align-items:center;justify-content:center;padding:16px;z-index:10;cursor:zoom-out}
+.zoom.show{display:flex}
+.zoom img{max-width:100%;max-height:100%;border-radius:8px}
+footer{text-align:center;color:#627187;font-size:.8rem;padding:0 16px 24px}
+@media(max-width:600px){.panel{padding:16px}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><p>磁気共鳴断層画像技術学 ／ 基礎</p><h1>MRI基礎1</h1><p>全10問</p></div></header>
+<main class="wrap">
+  <nav aria-label="戻る"><a class="back" href="./mri.html">← MRI問題集へもどる</a><a class="back" href="./portal.html">学習ポータルにもどる</a></nav>
+  <p class="instruction">各問題に解答して正誤と解説を確認しましょう。最後に合計得点を確認でき、何度でも取り組めます。</p>
+
+  <section class="panel" id="start">
+    <p class="scope">核磁気共鳴現象 / ラーモアの式</p>
+    <p class="muted">全10問 ／ 目標：60%以上の正解</p>
+    <div class="options">
+      <label><input type="checkbox" id="optShuffleQ" checked> 問題の順番をシャッフル</label>
+      <label><input type="checkbox" id="optShuffleC" checked> 選択肢をシャッフル</label>
+    </div>
+    <p class="muted" id="bestStart"></p>
+    <div class="actions"><button class="btn" id="btnStart">開始</button></div>
+  </section>
+
+  <section class="panel" id="quiz" hidden>
+    <div class="progress"><span id="progText"></span><div class="bar"><span id="progBar"></span></div><span id="scoreNow"></span></div>
+    <div class="qnum" id="qnum"></div>
+    <div class="qtext" id="qtext"></div>
+    <div id="multiNote"></div>
+    <div id="qimgWrap"></div>
+    <ul class="choices" id="choices"></ul>
+    <div class="verdict" id="verdict" role="status" aria-live="polite"></div>
+    <div class="actions">
+      <button class="btn" id="btnCheck" hidden disabled>解答</button>
+      <button class="btn" id="btnNext" hidden>次の問題へ</button>
+    </div>
+  </section>
+
+  <section id="result" hidden>
+    <div class="panel">
+      <h2>結果</h2>
+      <div class="score" id="scoreBig"></div>
+      <div class="passmsg" id="passMsg"></div>
+      <div class="muted" id="bestResult"></div>
+      <div class="actions">
+        <button class="btn ghost" id="btnRetryWrong">間違えた問題だけ解き直す</button>
+        <button class="btn" id="btnRetryAll">もう一度挑戦</button>
+      </div>
+    </div>
+    <div class="panel"><h2>ふりかえり</h2><div id="review"></div></div>
+  </section>
+</main>
+<footer>放射線技術学 学習ポータル</footer>
+<div class="zoom" id="zoom"><img alt="拡大画像" id="zoomImg"></div>
+
+<script>
+/* ===== 問題データ =====
+   q: 問題文 / img: 問題の画像(任意)
+   choices: t=選択肢の文, img=選択肢の画像, ok=正解ならtrue, fb=解説(任意)
+   正解(ok:true)を2つ以上にすると「2つ選べ」形式になります。 */
+const QUESTIONS = [
+  {
+    "q": "磁気共鳴現象で生体から得られる信号が最も強いのはどれか。",
+    "choices": [
+      {
+        "t": "¹H",
+        "ok": true,
+        "fb": "生体内の水と脂肪に含まれる水素原子核（陽子, プロトン）が画像信号の元となるエコーを発生させる."
+      },
+      {
+        "t": "¹³C",
+        "ok": false
+      },
+      {
+        "t": "¹⁹F",
+        "ok": false
+      },
+      {
+        "t": "²³Na",
+        "ok": false
+      },
+      {
+        "t": "³¹P",
+        "ok": false
+      }
+    ]
+  },
+  {
+    "q": "核磁気共鳴現象を起こす核種はどれか。",
+    "choices": [
+      {
+        "t": "²H",
+        "ok": true,
+        "fb": "陽子×1と中性子×1；陽子と中性子がいずれも奇数なので対象核。"
+      },
+      {
+        "t": "⁴He",
+        "ok": false
+      },
+      {
+        "t": "¹²C",
+        "ok": false
+      },
+      {
+        "t": "¹⁶O",
+        "ok": false
+      },
+      {
+        "t": "⁴⁰Ca",
+        "ok": false
+      }
+    ]
+  },
+  {
+    "q": "核磁気共鳴現象を起こすのはどれか。",
+    "choices": [
+      {
+        "t": "¹²C",
+        "ok": false
+      },
+      {
+        "t": "¹⁶O",
+        "ok": false
+      },
+      {
+        "t": "²²Ne",
+        "ok": false
+      },
+      {
+        "t": "²³Na",
+        "ok": true,
+        "fb": "この問題では質量数が奇数の核種を探せば良い."
+      },
+      {
+        "t": "⁴⁰Ca",
+        "ok": false
+      }
+    ]
+  },
+  {
+    "q": "ラーモア周波数と比例関係にあるのはどれか。2つ選べ。",
+    "choices": [
+      {
+        "t": "静磁場強度",
+        "ok": true,
+        "fb": "【絶対覚える】ラーモア周波数 = 磁気回転比 (MHz/Tesla）× 静磁場強度 (Tesla)"
+      },
+      {
+        "t": "縦緩和時間",
+        "ok": false,
+        "fb": "縦緩和時間（T1）は縦磁化がゼロから元の値の63%まで回復した時間[msec]"
+      },
+      {
+        "t": "横緩和時間",
+        "ok": false,
+        "fb": "横緩和時間（T2）は横磁化が発生してから, 37%まで減衰した時間[msec]"
+      },
+      {
+        "t": "磁気回転比",
+        "ok": true,
+        "fb": "ラーモア周波数 = 磁気回転比 (MHz/Tesla）× 静磁場強度 (Tesla)"
+      },
+      {
+        "t": "繰り返し時間",
+        "ok": false,
+        "fb": "TRと呼ばれる"
+      }
+    ]
+  },
+  {
+    "q": "Larmor〈ラーモア〉周波数を表す式はどれか。ただし、γ は磁気回転比、B<sub>0</sub>は磁束密度である。",
+    "choices": [
+      {
+        "img": "./h5p/MR講義用基礎1/content/images/image-0Ob8SIn6.png",
+        "ok": true
+      },
+      {
+        "img": "./h5p/MR講義用基礎1/content/images/image-jmCKa8XI.png",
+        "ok": false
+      },
+      {
+        "img": "./h5p/MR講義用基礎1/content/images/image-IlmphLCm.png",
+        "ok": false
+      },
+      {
+        "img": "./h5p/MR講義用基礎1/content/images/image-MuIc3ULB.png",
+        "ok": false
+      },
+      {
+        "img": "./h5p/MR講義用基礎1/content/images/image-piV7NWR1.png",
+        "ok": false
+      }
+    ]
+  },
+  {
+    "q": "1.5 T MRI 装置でプロトンのラーモア周波数［MHz］はどれか。",
+    "choices": [
+      {
+        "t": "42.6",
+        "ok": false
+      },
+      {
+        "t": "56.8",
+        "ok": false
+      },
+      {
+        "t": "63.9",
+        "ok": true,
+        "fb": "ラーモア周波数（共鳴周波数） = 磁気回転比42.6MHz/T × 静磁場強度 1.5T = 63.9MHz"
+      },
+      {
+        "t": "85.2",
+        "ok": false
+      },
+      {
+        "t": "127.8",
+        "ok": false
+      }
+    ]
+  },
+  {
+    "q": "静磁場の磁束密度が 3.0 T のときの共鳴周波数［MHz］はどれか。",
+    "choices": [
+      {
+        "t": "32.0",
+        "ok": false
+      },
+      {
+        "t": "63.9",
+        "ok": false
+      },
+      {
+        "t": "95.9",
+        "ok": false
+      },
+      {
+        "t": "127.8",
+        "ok": true,
+        "fb": "共鳴周波数 = 42.6MHz/T × 3.0T = 127.8MHz"
+      },
+      {
+        "t": "191.7",
+        "ok": false
+      }
+    ]
+  },
+  {
+    "q": "核磁気共鳴で正しいのはどれか。",
+    "choices": [
+      {
+        "t": "T1緩和時間は T2緩和時間よりも短い。",
+        "ok": false,
+        "fb": "【絶対覚える】緩和時間は,   T1（縦緩和時間） &gt; T2（横緩和時間） &gt; T2* という関係性がある."
+      },
+      {
+        "t": "核スピンの励起にはマイクロ波を使用する。",
+        "ok": false,
+        "fb": "RF波（RFパルス）を使用する. MHz単位."
+      },
+      {
+        "t": "Larmor〈ラーモア〉周波数は外部磁場の強さに比例する。",
+        "ok": true,
+        "fb": "ラーモア周波数（共鳴周波数） = 磁気回転比γ × 静磁場強度B0 , 外磁場の大きさは静磁場強度を指す."
+      },
+      {
+        "t": "陽子と中性子の両方が偶数個の原子核が観測対象である。",
+        "ok": false,
+        "fb": "陽子または中性子が奇数, もしくは陽子と中性子ともに奇数の核種が角磁気共鳴の対象となる"
+      },
+      {
+        "t": "外部磁場中におかれた水素原子の核スピンは4つのエネルギー準位に分かれる。",
+        "ok": false,
+        "fb": "水素原子は2つのエネルギー準位をとる（+1/2, -1/2）"
+      }
+    ]
+  },
+  {
+    "q": "MRI の信号強度に影響を与える組織固有の因子はどれか。",
+    "choices": [
+      {
+        "t": "フリップ角",
+        "ok": false,
+        "fb": "フリップ角（flip angle）は縦磁化を倒す角度"
+      },
+      {
+        "t": "磁場均一性",
+        "ok": false,
+        "fb": "磁場の均一性が高いと水の中心周波数を的確に捉えられるが, 組織固有因子ではなく, 装置側で行われる調整."
+      },
+      {
+        "t": "静磁場強度",
+        "ok": false,
+        "fb": "静磁場強度（Tesla）が高いほど信号強度は増大するが,これは装置固有の因子."
+      },
+      {
+        "t": "プロトン密度",
+        "ok": true,
+        "fb": "プロトンが多いほど信号は増大する. プロトンの量は組織固有の因子."
+      },
+      {
+        "t": "繰り返し時間",
+        "ok": false,
+        "fb": "TRは主にT1コントラストに寄与する. これは撮像方法による因子."
+      }
+    ]
+  },
+  {
+    "q": "頭部MR像を別に示す。撮影法で正しいのはどれか。",
+    "img": "./h5p/MR講義用基礎1/content/images/image-TW7l3nX3.png",
+    "choices": [
+      {
+        "t": "T<sub>1</sub>強調像",
+        "ok": false
+      },
+      {
+        "t": "T<sub>2</sub>強調像",
+        "ok": false
+      },
+      {
+        "t": "T2 FLAIR像",
+        "ok": true,
+        "fb": "灰白質が白質より高信号. 脳質周囲が白い（PVH）."
+      },
+      {
+        "t": "拡散強調像",
+        "ok": false
+      },
+      {
+        "t": "プロトン密度強調像",
+        "ok": false
+      }
+    ]
+  }
+];
+const PASS = 60;
+const STORAGE_KEY = "quiz-mribasic1v2-best";
+
+/* ===== 動作部分（通常は編集不要） ===== */
+const $ = id => document.getElementById(id);
+let order = [], idx = 0, correct = 0, log = [], selected = new Set();
+
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function getBest(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY));}catch(e){return null;}}
+function setBest(v){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(v));}catch(e){}}
+function showBest(el){const b=getBest();el.textContent=b?`これまでの最高記録：${b.score} / ${b.total}問（${b.date}）`:"";}
+function choiceHTML(c){return (c.img?`<img src="${c.img}" alt="${c.t||"選択肢の画像"}">`:"")+(c.t&&!c.img?c.t:"");}
+function correctIdx(q){return q.choices.map((c,i)=>c.ok?i:-1).filter(i=>i>=0);}
+
+function start(list){
+  const base=list||QUESTIONS.map((_,i)=>i);
+  order=$("optShuffleQ").checked?shuffle(base):base;
+  idx=0;correct=0;log=[];
+  $("start").hidden=true;$("result").hidden=true;$("quiz").hidden=false;
+  render();window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function render(){
+  const q=QUESTIONS[order[idx]], multi=correctIdx(q).length>1;
+  const ci=$("optShuffleC").checked?shuffle(q.choices.map((_,i)=>i)):q.choices.map((_,i)=>i);
+  selected=new Set();
+  $("progText").textContent=`${idx+1} / ${order.length}`;
+  $("progBar").style.width=(idx/order.length*100)+"%";
+  $("scoreNow").textContent=`正解 ${correct}`;
+  $("qnum").textContent=`問題 ${idx+1}`;
+  $("qtext").innerHTML=q.q;
+  $("multiNote").innerHTML=multi?`<span class="multi-note">${correctIdx(q).length}つ選んでから「解答」を押してください</span>`:"";
+  $("qimgWrap").innerHTML=q.img?`<img class="qimg" src="${q.img}" alt="問題の画像（タップで拡大）">`:"";
+  const ul=$("choices");ul.innerHTML="";ul.className="choices"+(q.choices.some(c=>c.img)?" imgs":"");
+  ci.forEach((orig,n)=>{
+    const c=q.choices[orig], li=document.createElement("li"), b=document.createElement("button");
+    b.className="choice";b.dataset.orig=orig;
+    b.innerHTML=`<span class="no">${n+1}</span><span class="body">${choiceHTML(c)}${c.fb?`<span class="cfb">${c.fb}</span>`:""}</span>`;
+    b.addEventListener("click",()=>multi?toggle(orig,b,q):answer(new Set([orig])));
+    li.appendChild(b);ul.appendChild(li);
+  });
+  $("verdict").className="verdict";
+  $("btnCheck").hidden=!multi;$("btnCheck").disabled=true;
+  $("btnNext").hidden=true;
+}
+
+function toggle(orig,b,q){
+  if(selected.has(orig)){selected.delete(orig);b.classList.remove("selected");}
+  else{selected.add(orig);b.classList.add("selected");}
+  $("btnCheck").disabled=selected.size!==correctIdx(q).length;
+}
+
+function answer(chosen){
+  const qi=order[idx], q=QUESTIONS[qi], ans=correctIdx(q);
+  const ok=chosen.size===ans.length&&ans.every(i=>chosen.has(i));
+  if(ok)correct++;
+  log.push({qi,chosen:[...chosen],ok});
+  $("choices").classList.add("answered");
+  document.querySelectorAll(".choice").forEach(b=>{
+    b.disabled=true;b.classList.remove("selected");
+    const o=Number(b.dataset.orig);
+    if(q.choices[o].ok)b.classList.add("correct",...(chosen.has(o)?[]:["missed"]));
+    else if(chosen.has(o))b.classList.add("wrong");
+  });
+  const v=$("verdict");
+  v.className="verdict show "+(ok?"ok":"ng");
+  v.textContent=ok?"正解！":"不正解… 緑の枠が正解です。各選択肢の解説を確認しましょう。";
+  $("scoreNow").textContent=`正解 ${correct}`;
+  $("btnCheck").hidden=true;
+  $("btnNext").textContent=idx===order.length-1?"結果を表示":"次の問題へ";
+  $("btnNext").hidden=false;$("btnNext").focus({preventScroll:true});
+}
+
+function next(){idx++;if(idx<order.length){render();window.scrollTo({top:0,behavior:"smooth"});}else finish();}
+
+function finish(){
+  $("quiz").hidden=true;$("result").hidden=false;
+  $("scoreBig").innerHTML=`${correct}<small> / ${order.length}問</small>`;
+  const full=order.length===QUESTIONS.length, pm=$("passMsg");
+  if(full){
+    const pass=correct/order.length*100>=PASS;
+    pm.className="passmsg "+(pass?"ok":"ng");
+    pm.textContent=pass?`目標（${PASS}%）達成！`:`目標（${PASS}%）まであと少し。解説を見直してもう一度挑戦しよう。`;
+    const b=getBest();
+    if(!b||correct>b.score){const d=new Date();setBest({score:correct,total:order.length,date:`${d.getMonth()+1}/${d.getDate()}`});}
+  }else pm.textContent="";
+  showBest($("bestResult"));
+  $("btnRetryWrong").hidden=!log.some(l=>!l.ok);
+  const rv=$("review");rv.innerHTML="";
+  log.forEach((l,n)=>{
+    const q=QUESTIONS[l.qi], ans=correctIdx(q);
+    const fmt=list=>list.map(i=>choiceHTML(q.choices[i])).join("、");
+    const fbs=q.choices.map((c,i)=>(c.fb&&(c.ok||l.chosen.includes(i)))?`<p class="exp">${c.ok?"✓":"✗"} ${c.fb}</p>`:"").join("");
+    const div=document.createElement("div");div.className="review-item";
+    div.innerHTML=`<div class="rq"><span class="tag ${l.ok?"ok":"ng"}">${l.ok?"正解":"不正解"}</span>問題${n+1}　${q.q}</div>
+      <div class="ans">${l.ok?`正解：${fmt(ans)}`:`あなたの解答：${fmt(l.chosen)} ／ 正解：${fmt(ans)}`}</div>${fbs}`;
+    rv.appendChild(div);
+  });
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+$("btnStart").addEventListener("click",()=>start());
+$("btnCheck").addEventListener("click",()=>answer(selected));
+$("btnNext").addEventListener("click",next);
+$("btnRetryAll").addEventListener("click",()=>start());
+$("btnRetryWrong").addEventListener("click",()=>start(log.filter(l=>!l.ok).map(l=>l.qi)));
+document.addEventListener("click",e=>{
+  if(e.target.classList.contains("qimg")){$("zoomImg").src=e.target.src;$("zoom").classList.add("show");}
+  else if(e.target.closest("#zoom"))$("zoom").classList.remove("show");
+});
+showBest($("bestStart"));
+</script>
+</body>
+</html>
