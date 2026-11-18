@@ -41,6 +41,14 @@ a:focus-visible,button:focus-visible{outline:3px solid #2457a7;outline-offset:4p
 .choice .body{flex:1;min-width:0}
 .choice img{max-width:100%;height:auto;display:block}
 .choices.imgs .choice{flex-direction:column;align-items:center}
+.choices.tf{grid-template-columns:1fr 1fr}
+.choices.tf .choice{flex-direction:column;align-items:center;text-align:center;padding:14px 8px;font-weight:700}
+.choices.tf .choice .no{display:none}
+.choices.tf .choice .body{font-size:1.05rem}
+.choices.tf .cfb{text-align:left;font-weight:400}
+.badge{display:inline-block;font-size:.75rem;font-weight:700;color:#2457a7;background:#eef4fb;border:1px solid #c9d9ee;border-radius:99px;padding:0 10px;margin-bottom:4px}
+.qtag{font-weight:400;color:#627187;font-size:.8rem;margin-left:.5em}
+.dots.many .dot{width:28px;height:28px;font-size:.75rem}
 .choice.selected{border-color:#2457a7;background:#eef4fb}
 .choice.selected .no{background:#2457a7;color:#fff}
 .choice.correct{border-color:#1f9d63;background:#e8f7ef}
@@ -194,7 +202,7 @@ const QUESTIONS = [
       {
         "t": "三相二重６ピーク整流装置のリプル百分率の理論値は３.４％である。",
         "ok": false,
-        "fb": "正しい。<br><br><a href=\"https://minnano-cloud.github.io/basicMRI_1/images/rectification-ripple-table.png\" target=\"_blank\" rel=\"noopener noreferrer\">旧型装置の「整流方式とリプル百分率などの表」を見る</a>"
+        "fb": "誤り。三相二重6ピーク整流装置のリプル百分率の理論値は13.4%である。<br><br><a href=\"https://minnano-cloud.github.io/basicMRI_1/images/rectification-ripple-table.png\" target=\"_blank\" rel=\"noopener noreferrer\">旧型装置の「整流方式とリプル百分率などの表」を見る</a>"
       },
       {
         "t": "高電圧整流素子には一般にセレンを用いる。",
@@ -217,7 +225,7 @@ const QUESTIONS = [
         "fb": "高電圧ケーブルには２５０pF/m程度の静電容量（コンデンサのようなもの）があり、出力電圧の平滑化（リプル小さくする）の効果がある。"
       }
     ],
-    "exp": "フィラメントはX線管の陰極なので、フィラメント加熱変圧器の二次側には高電圧がかかる。そのため一次側との間に高電圧絶縁が必要。ほかの選択肢：高電圧整流素子はシリコン（セレンではない）／管電圧は単巻変圧器のタップで調整する（主変圧器ではない）／高電圧ケーブルの静電容量は約250 pF/m（μFではない）。"
+    "exp": "フィラメントはX線管の陰極なので、フィラメント加熱変圧器の二次側には高電圧がかかる。そのため一次側との間に高電圧絶縁が必要。ほかの選択肢：三相二重6ピーク整流装置のリプル百分率の理論値は13.4%（3.4%ではない）／高電圧整流素子はシリコン（セレンではない）／管電圧は単巻変圧器のタップで調整する（主変圧器ではない）／高電圧ケーブルの静電容量は約250 pF/m（μFではない）。"
   },
   {
     "q": "X線高電圧装置について正しいのはどれか。2つ選べ。",
@@ -490,14 +498,14 @@ function start(list){
   const base=list||QUESTIONS.map((_,i)=>i);
   order=$("optShuffleQ").checked?shuffle(base):base;
   const sc=$("optShuffleC").checked;
-  corder=order.map(qi=>{const ix=QUESTIONS[qi].choices.map((_,i)=>i);return sc?shuffle(ix):ix;});
+  corder=order.map(qi=>{const ix=QUESTIONS[qi].choices.map((_,i)=>i);return (sc&&!QUESTIONS[qi].tf)?shuffle(ix):ix;});
   state=order.map(()=>null);pos=0;
   $("start").hidden=true;$("result").hidden=true;$("quiz").hidden=false;
   render();toQuizTop();
 }
 
 function renderDots(){
-  const ul=$("dots");ul.innerHTML="";
+  const ul=$("dots");ul.innerHTML="";ul.className="dots"+(order.length>12?" many":"");
   order.forEach((_,i)=>{
     const li=document.createElement("li"),b=document.createElement("button");
     b.className="dot"+(state[i]?(state[i].ok?" ok":" ng"):"")+(i===pos?" cur":"");
@@ -516,11 +524,11 @@ function render(){
   $("progBar").style.width=(nAnswered()/order.length*100)+"%";
   $("scoreNow").textContent=`正解 ${nCorrect()}`;
   renderDots();
-  $("qnum").textContent=`問題 ${pos+1}`;
+  $("qnum").innerHTML=`問題 ${pos+1}`+(q.tag?`<span class="qtag">${q.tag}</span>`:"");
   $("qtext").innerHTML=q.q;
   $("multiNote").innerHTML=multi?`<span class="multi-note">${correctIdx(q).length}つ選んでから「解答」を押してください</span>`:"";
   $("qimgWrap").innerHTML=q.img?`<img class="qimg" src="${q.img}" alt="問題の画像（タップで拡大）">`:"";
-  const ul=$("choices");ul.innerHTML="";ul.className="choices"+(q.choices.some(c=>c.img)?" imgs":"");
+  const ul=$("choices");ul.innerHTML="";ul.className="choices"+(q.choices.some(c=>c.img)?" imgs":"")+(q.tf?" tf":"");
   corder[pos].forEach((orig,n)=>{
     const c=q.choices[orig],li=document.createElement("li"),b=document.createElement("button");
     b.className="choice";b.dataset.orig=orig;
