@@ -69,6 +69,7 @@ a:focus-visible,button:focus-visible{outline:3px solid #2457a7;outline-offset:4p
 .btn:disabled{opacity:.4;cursor:default;filter:none}
 .btn.ghost{background:#fff;color:#2457a7}
 .btn[hidden],.actions[hidden]{display:none}
+.next-set{background:#1f9d63;border-color:#1f9d63;text-decoration:none;display:inline-block}
 .score{font-size:2.6rem;font-weight:800;color:#2457a7;margin:.1em 0;line-height:1.3}
 .score small{font-size:1rem;color:#627187;font-weight:600}
 .passmsg{font-weight:700}
@@ -138,6 +139,7 @@ footer{text-align:center;color:#627187;font-size:.8rem;padding:0 16px 24px}
       <div class="actions">
         <button class="btn ghost" id="btnRetryWrong">間違えた問題だけ解き直す</button>
         <button class="btn" id="btnRetryAll">もう一度挑戦</button>
+        <a class="btn next-set" id="btnNextSet" hidden></a>
       </div>
     </div>
     <div class="panel"><h2>ふりかえり</h2><div id="review"></div></div>
@@ -437,6 +439,8 @@ const QUESTIONS = [
   }
 ];
 const PASS = 60;
+/* 結果画面の「次の問題に進む」ボタンのリンク先（不要なら null） */
+const NEXT_SET = {"url": "./mri-basic2.html", "label": "MRI基礎2"};
 const STORAGE_KEY = "quiz-mribasic1v2-best";
 
 /* ===== 動作部分（通常は編集不要） ===== */
@@ -594,6 +598,7 @@ document.addEventListener("click",e=>{
   else if(e.target.closest("#zoom"))$("zoom").classList.remove("show");
 });
 showBest($("bestStart"));
+if(NEXT_SET){const a=$("btnNextSet");a.href=NEXT_SET.url;a.textContent=`次の問題に進む（${NEXT_SET.label}）→`;a.hidden=false;}
 </script>
 </body>
 </html>
