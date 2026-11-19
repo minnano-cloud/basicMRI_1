@@ -67,12 +67,13 @@ groups.forEach(group => {
   const sets = document.createElement("div");
   sets.className = "sets";
   for (let i = 1; i <= group.count; i++) {
-    const available = (group.title === "X線管" && i <= 3) || (group.title === "高電圧装置" && i <= 3);
+    const isGA = group.title === "グリッド / AEC";
+    const available = (group.title === "X線管" && i <= 3) || (group.title === "高電圧装置" && i <= 3) || (isGA && i === 2);
     const card = document.createElement(available ? "a" : "div");
-    if (available) { card.href = group.title === "高電圧装置" ? `./xray-highvoltage${i}-v2.html` : `./xray-tube${i}-v2.html`; card.style.borderColor = "#76a9d8"; card.style.background = "#eef6ff"; }
+    if (available) { card.href = isGA ? "./xray-aec1.html" : group.title === "高電圧装置" ? `./xray-highvoltage${i}-v2.html` : `./xray-tube${i}-v2.html`; card.style.borderColor = "#76a9d8"; card.style.background = "#eef6ff"; }
     card.className = "set";
     const title = document.createElement("strong");
-    title.textContent = available ? `${group.title}${i}` : group.title === "国家試験形式20問" ? `セット ${i}` : `${group.title}${i}`;
+    title.textContent = isGA ? (i === 1 ? "グリッド" : "AEC") : available ? `${group.title}${i}` : group.title === "国家試験形式20問" ? `セット ${i}` : `${group.title}${i}`;
     const detail = document.createElement("span");
     detail.className = "detail";
     detail.textContent = `${group.questions}問`;
